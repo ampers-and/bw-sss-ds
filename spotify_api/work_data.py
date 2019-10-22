@@ -8,7 +8,7 @@ from sklearn.preprocessing import StandardScaler
 import numpy as np
 from numpy.linalg import norm
 from joblib import load
-
+from flask import Flask, render_template, request
 
 CLIENT_ID = config("CLIENT_ID")
 CLIENT_SECRET = config("CLIENT_SECRET")
@@ -124,3 +124,20 @@ def get_songs(song, limit=7):
                        'id': i['id'],
                        'uri': i['uri']})
     return(tracks)
+
+def mood():
+    acousticness = request.args.get('acousticness')
+    danceability = request.args.get('danceability')
+    duration_ms = request.args.get('duration_ms')
+    energy = request.args.get('energy')
+    instrumentalness = request.args.get('instrumentalness')
+    key = request.args.get('key')
+    liveness = request.args.get('liveness')
+    loudness = request.args.get('loudness')
+    mode = request.args.get('mode')
+    speechiness = request.args.get('speechiness')
+    tempo = request.args.get('tempo')
+    time_signature = request.args.get('time_signature')
+    id = request.args.get('id')
+    return([acousticness, danceability, duration_ms, energy, instrumentalness, key,
+            liveness, loudness, mode, speechiness, tempo, time_signature,id])

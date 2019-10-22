@@ -95,23 +95,9 @@ def graph_data(key, value):
 
 @app.route('/mood/<key>', methods=['GET'])
 def mood(key):
-    if key == API_KEY:
-        acousticness = request.args.get('acousticness')
-        danceability = request.args.get('danceability')
-        duration_ms = request.args.get('duration_ms')
-        energy = request.args.get('energy')
-        instrumentalness = request.args.get('instrumentalness')
-        key = request.args.get('key')
-        liveness = request.args.get('liveness')
-        loudness = request.args.get('loudness')
-        mode = request.args.get('mode')
-        speechiness = request.args.get('speechiness')
-        tempo = request.args.get('tempo')
-        time_signature = request.args.get('time_signature')
-        id = request.args.get('id')
+    recs = mood()
 
-
-        return('')
+    return(jsonify(recs))
 
 if __name__ == '__main__':
     app.run()
