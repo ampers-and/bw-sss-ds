@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request, url_for, redirect,jsonify
-
+from flask import Flask, render_template, request, url_for, redirect, jsonify
 from decouple import config
 from dotenv import load_dotenv
 from work_data import *
+import pygal
 from flask_cors import CORS
 
 load_dotenv()
@@ -67,13 +67,9 @@ def graph(key, value):
 
         graph_data = radar_chart.render_data_uri()
 
-        return(render_template('radio.html',
-                               graph_data=graph_data,
-                               title='Song Feature Graph'))
-
-
-
-
+        return(render_template('radar.html',
+                                graph_data=graph_data,
+                                title='Song Feature Graph'))
 
 
 if __name__ == '__main__':

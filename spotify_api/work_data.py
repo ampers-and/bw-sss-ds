@@ -32,8 +32,8 @@ class Rec_Helper():
         ids = [i['id'] for i in res['tracks']]
         return(ids)
 
-    def get_features(self, list_id):
-        res = self.spotify.audio_features(tracks=list_id)[0]
+    def get_features(self, target_id):
+        res = self.spotify.audio_features(tracks=target_id)[0]
 
         feat_dict = {'acousticness': res['acousticness'],
                      'danceability': res['danceability'],
