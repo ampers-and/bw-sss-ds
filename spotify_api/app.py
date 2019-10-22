@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, url_for, redirect,jsonify
-from get_data import *
 from decouple import config
 from dotenv import load_dotenv
 from work_data import *
+import pygal
 
 load_dotenv()
 
@@ -69,10 +69,6 @@ def graph(key, value):
         return(render_template('radio.html',
                                graph_data=graph_data,
                                title='Song Feature Graph'))
-
-
-
-
 
 
 if __name__ == '__main__':
