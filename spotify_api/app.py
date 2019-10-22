@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, url_for, redirect,jsonify
-from get_data import *
+
 from decouple import config
 from dotenv import load_dotenv
 from work_data import *
+from flask_cors import CORS
 
 load_dotenv()
 
@@ -10,7 +11,7 @@ API_KEY = config("API_KEY")
 
 
 app = Flask(__name__)
-
+CORS(app)
 
 @app.route('/')
 def home():
