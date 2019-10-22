@@ -35,5 +35,24 @@ def embed(value):
 
     return(render_template('embed.html', recs=recs))
 
+@app.route('/graph/<value>')
+def graph(value):
+    rec_helper = Rec_Helper()
+    recs = rec_helper.top_recs(value)
+
+    features = pd.concat([rec_helper.get_all_features([value]), recs])
+
+    radar_chart = pygal.Radar()
+    radar_chart.title = 'Comparison of Recommendations for \"' + rec_helper.spotify.track(value)['name'] + '\"'
+    radar_chart.x_labels = list(features.keys())
+
+    for name, feature_vec in zip(features.id, features.drop('id', axis=1).values):
+        radar_chart.add(rec_helper.spotify.track(name)['name'],
+                        rec_helper.spot_scaler.transform([feature_vec])[0])
+
+    graph_data = radar_chart.render_data_uri()
+
+    return(render_template('radio.html', graph_data = graph_data, title='Song Feature Graph'))
+
 if __name__ == '__main__':
     app.run()
