@@ -18,14 +18,13 @@ class Rec_Helper():
     CLIENT_ID = CLIENT_ID_var
     CLIENT_SECRET = CLIENT_SECRET_var
     credentials = oauth2.SpotifyClientCredentials(
-            client_id=CLIENT_ID,
-            client_secret=CLIENT_SECRET)
+                    client_id=CLIENT_ID,
+                    client_secret=CLIENT_SECRET)
     token = credentials.get_access_token()
 
     def __init__(self, k=5):
         self.spotify = spotipy.Spotify(auth=self.token)
         self.spot_scaler = load('SpotScaler.joblib')
-        self.k = k
 
     # get the ids of 100 recommendations from spotify
     def get_100(self, target_id):
@@ -88,7 +87,7 @@ class Rec_Helper():
             df = df.append(feat_dict, ignore_index=True)
         return(df)
 
-    def top_recs(self, target_id):
+    def top_recs(self, target_id, k=5):
         df = self.get_all_features(self.get_100(target_id))
         song_df = self.get_all_features(target_id)
 
@@ -97,7 +96,7 @@ class Rec_Helper():
 
         df['dist'] = list(map(lambda x: norm(x-np.array(feats)[0]),
                               np.array(df_scaled)))
-        top = df.sort_values(by='dist').iloc[0:self.k]
+        top = df.sort_values(by='dist').iloc[0:k]
 
         return top.drop(['dist'], axis=1)
 
