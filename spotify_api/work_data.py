@@ -120,5 +120,5 @@ class Rec_Helper():
         for i in songs['tracks']['items']:
             tracks.append({'song_name': i['name'],
                            'artist': i['artists'][0]['name'],
-                           'id': i['id']})
+                           'id': i['id'], 'uri':i['uri']})
         return(tracks)
