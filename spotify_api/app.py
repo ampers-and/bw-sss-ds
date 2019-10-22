@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect,jsonify
+from flask import Flask, render_template, request, url_for, redirect, jsonify
 
 from decouple import config
 from dotenv import load_dotenv
@@ -36,7 +36,7 @@ def song_features(key, value):
 @app.route('/recs/<key>/<value>')
 def recommendations(key, value):
     if key == API_KEY:
-        recs = Rec_Helper().feedback(value)
+        recs = Rec_Helper().rec_data(value)
 
         return(jsonify(recs))
 
@@ -44,7 +44,7 @@ def recommendations(key, value):
 @app.route('/embed/<key>/<value>')
 def embed(key, value):
     if key == API_KEY:
-        recs = Rec_Helper().feedback(value)
+        recs = Rec_Helper().rec_data(value)
 
         return(render_template('embed.html', recs=recs))
 
@@ -79,7 +79,8 @@ def graph_data(key, value):
         recs = rec_helper.top_recs(value)
 
         features = pd.concat([rec_helper.get_all_features([value]), recs])
-        feat_dict = rec_helper.feedback2(features)
+        
+        feat_dict = rec_helper.songs_data(features)
         radar_chart = pygal.Radar()
         radar_chart.title = ('Comparison of Recommendations for \"' +
                              rec_helper.spotify.track(value)['name'] + '\"')

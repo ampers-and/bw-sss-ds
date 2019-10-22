@@ -100,21 +100,8 @@ class Rec_Helper():
 
         return top.drop(['dist'], axis=1)
 
-    def feedback(self, target_id):
-        vals = self.top_recs(target_id).id.values
-        song_info = []
-        for i in vals:
-            tracks = self.spotify.track(i)
-            song_info.append({'large_image': tracks['album']['images'][0]['url'],
-                              'med_image': tracks['album']['images'][1]['url'],
-                              'small_image': tracks['album']['images'][2]['url'],
-                              'artist': tracks['artists'][0]['name'],
-                              'song_name': tracks['name'],
-                              'id': tracks['id'],
-                              'uri': tracks['uri']})
-        return(song_info)
-
-    def feedback2(self, res_df):
+    # Get an array of data pertaining to a list of recommendations
+    def songs_data(self, res_df):
         vals = res_df.id.values
         song_info = []
         for i in vals:
@@ -126,7 +113,11 @@ class Rec_Helper():
                               'song_name': tracks['name'],
                               'id': tracks['id'],
                               'uri': tracks['uri']})
-        return(song_info)
+        return song_info
+
+    # Get an array of data pertaining to a list of recommendations based on target
+    def rec_data(self, target_id):
+        return self.songs_data(self.top_recs(target_id))
 
     def get_songs(self, song, limit=7):
         songs = self.spotify.search(song, limit=limit, offset=0, type='track', market='US')
