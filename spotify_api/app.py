@@ -94,7 +94,7 @@ def graph_data(key, value):
 
 
 @app.route('/mood/<key>', methods=['GET'])
-def mood(key):
+def mood_api(key):
     if key == API_KEY:
         recs = mood()
 

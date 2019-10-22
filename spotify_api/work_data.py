@@ -138,6 +138,9 @@ def mood():
     speechiness = request.args.get('speechiness')
     tempo = request.args.get('tempo')
     time_signature = request.args.get('time_signature')
-    id = request.args.get('id')
+
     return([acousticness, danceability, duration_ms, energy, instrumentalness, key,
-            liveness, loudness, mode, speechiness, tempo, time_signature,id])
+            liveness, loudness, mode, speechiness, tempo, time_signature])
+
+
+#https://spotify-api-helper.herokuapp.com/mood/DReaI4d55IIaiD6P9?acousticness=2&danceability=3&duration_ms=2&energy=9&instrumentalness=6&key=9&liveness=0.14&loudness=7&mode=1&speechiness=.09&tempo=3&time_signature=0.6
