@@ -36,7 +36,7 @@ def song_features(key, value):
 @app.route('/recs/<key>/<value>')
 def recommendations(key, value):
     if key == API_KEY:
-        recs = rec_data(value)
+        recs = rec_data([value])
 
         return(jsonify(recs))
 
@@ -44,7 +44,7 @@ def recommendations(key, value):
 @app.route('/embed/<key>/<value>')
 def embed(key, value):
     if key == API_KEY:
-        recs = rec_data(value)
+        recs = rec_data([value])
 
         return(render_template('embed.html', recs=recs))
 
@@ -52,7 +52,7 @@ def embed(key, value):
 @app.route('/graph/<key>/<value>')
 def graph(key, value):
     if key == API_KEY:
-        recs = top_recs(value)
+        recs = top_recs([value])
 
         features = pd.concat([get_all_features([value]), recs])
 
@@ -74,7 +74,7 @@ def graph(key, value):
 @app.route('/graph_data/<key>/<value>')
 def graph_data(key, value):
     if key == API_KEY:
-        recs = top_recs(value)
+        recs = top_recs([value])
 
         features = pd.concat([get_all_features([value]), recs])
 

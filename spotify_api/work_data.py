@@ -23,7 +23,7 @@ spot_scaler = load('SpotScaler.joblib')
 
 # get the ids of 100 recommendations from spotify
 def get_100(target_id):
-    res = spotify.recommendations(seed_tracks=[target_id], limit=100)
+    res = spotify.recommendations(seed_tracks=target_id, limit=100)
     ids = [i['id'] for i in res['tracks']]
     return(ids)
 
@@ -76,15 +76,23 @@ def get_all_features(list_id):
     return(df)
 
 
+# Take the mean of the distances between the list of
+# reccomendations and the input options.
+# NOTE: The mean of the distance is NOT the same
+#       as the distance from the mean
 def top_recs(target_id, k=5):
     df = get_all_features(get_100(target_id))
     song_df = get_all_features(target_id)
 
-    df_scaled = spot_scaler.fit_transform(df.drop(['id'], axis=1))
-    feats = spot_scaler.transform(song_df.drop(['id'], axis=1))
+    df_scaled = spot_scaler.transform(df.drop(['id'], axis=1))
+    song_df_scaled = spot_scaler.transform(song_df.drop(['id'], axis=1))
 
-    df['dist'] = list(map(lambda x: norm(x-np.array(feats)[0]),
-                          np.array(df_scaled)))
+    df['dist'] = list(map(lambda x:
+                            np.mean(list(map(lambda y: norm(x-y),
+                                             np.array(song_df_scaled)
+                                             ))), 
+                          np.array(df_scaled)
+                          ))
     top = df.sort_values(by='dist').iloc[0:k]
 
     return top.drop(['dist'], axis=1)
