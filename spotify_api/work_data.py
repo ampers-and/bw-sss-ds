@@ -114,6 +114,20 @@ class Rec_Helper():
                               'uri': tracks['uri']})
         return(song_info)
 
+    def feedback2(self, res_df):
+        vals = res_df.id.values
+        song_info = []
+        for i in vals:
+            tracks = self.spotify.track(i)
+            song_info.append({'large_image': tracks['album']['images'][0]['url'],
+                              'med_image': tracks['album']['images'][1]['url'],
+                              'small_image': tracks['album']['images'][2]['url'],
+                              'artist': tracks['artists'][0]['name'],
+                              'song_name': tracks['name'],
+                              'id': tracks['id'],
+                              'uri': tracks['uri']})
+        return(song_info)
+
     def get_songs(self, song, limit=7):
         songs = self.spotify.search(song, limit=limit, offset=0, type='track', market='US')
         tracks = []
