@@ -79,7 +79,7 @@ def graph_data(key, value):
         recs = rec_helper.top_recs(value)
 
         features = pd.concat([rec_helper.get_all_features([value]), recs])
-        
+
         feat_dict = rec_helper.songs_data(features)
         radar_chart = pygal.Radar()
         radar_chart.title = ('Comparison of Recommendations for \"' +
@@ -98,22 +98,11 @@ def graph_data(key, value):
 @app.route('/mood/<key>', methods=['GET'])
 def mood(key):
     if key == API_KEY:
-        acousticness = request.args.get('acousticness')
-        danceability = request.args.get('danceability')
-        duration_ms = request.args.get('duration_ms')
-        energy = request.args.get('energy')
-        instrumentalness = request.args.get('instrumentalness')
-        key = request.args.get('key')
-        liveness = request.args.get('liveness')
-        loudness = request.args.get('loudness')
-        mode = request.args.get('mode')
-        speechiness = request.args.get('speechiness')
-        tempo = request.args.get('tempo')
-        time_signature = request.args.get('time_signature')
-        id = request.args.get('id')
+        rec_helper = Rec_Helper()
+        recs = rec_helper.mood()
 
 
-        return('')
+        return(jsonify(recs))
 
 if __name__ == '__main__':
     app.run()

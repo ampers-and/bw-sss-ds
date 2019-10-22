@@ -8,7 +8,7 @@ from sklearn.preprocessing import StandardScaler
 import numpy as np
 from numpy.linalg import norm
 from joblib import load
-
+from flask import Flask, render_template, request
 
 CLIENT_ID_var = config("CLIENT_ID")
 CLIENT_SECRET_var = config("CLIENT_SECRET")
@@ -127,3 +127,23 @@ class Rec_Helper():
                            'artist': i['artists'][0]['name'],
                            'id': i['id'], 'uri':i['uri']})
         return(tracks)
+
+
+    def mood(self):
+        acousticness = request.args.get('acousticness')
+        danceability = request.args.get('danceability')
+        duration_ms = request.args.get('duration_ms')
+        energy = request.args.get('energy')
+        instrumentalness = request.args.get('instrumentalness')
+        key = request.args.get('key')
+        liveness = request.args.get('liveness')
+        loudness = request.args.get('loudness')
+        mode = request.args.get('mode')
+        speechiness = request.args.get('speechiness')
+        tempo = request.args.get('tempo')
+        time_signature = request.args.get('time_signature')
+        id = request.args.get('id')
+        return([acousticness, danceability, duration_ms, energy, instrumentalness, key,
+                liveness, loudness, mode, speechiness, tempo, time_signature,id])
+
+#mood/DReaI4d55IIaiD6P9?acousticness=2&danceability=3&duration_ms=2&energy=9&instrumentalness=6&key=9&liveness=0.14&loudness=7&mode=1&speechiness=.09&tempo=3&time_signature=0.6&id=0.5
