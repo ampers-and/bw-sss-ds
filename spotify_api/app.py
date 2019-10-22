@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, url_for, redirect, jsonify
+from flask import Flask, render_template, request, url_for, redirect,jsonify
+from get_data import *
 from decouple import config
 from dotenv import load_dotenv
 from work_data import *
-import pygal
 from flask_cors import CORS
+import pygal
 
 load_dotenv()
 
@@ -71,6 +72,47 @@ def graph(key, value):
                                 graph_data=graph_data,
                                 title='Song Feature Graph'))
 
+@app.route('/graph_data/<key>/<value>')
+def graph_data(key, value):
+    if key == API_KEY:
+        rec_helper = Rec_Helper()
+        recs = rec_helper.top_recs(value)
+
+        features = pd.concat([rec_helper.get_all_features([value]), recs])
+        feat_dict = rec_helper.feedback2(features)
+        radar_chart = pygal.Radar()
+        radar_chart.title = ('Comparison of Recommendations for \"' +
+                             rec_helper.spotify.track(value)['name'] + '\"')
+        radar_chart.x_labels = list(features.keys())
+
+        for id, feature_vec in zip(features.id, features.drop('id', axis=1).values):
+            radar_chart.add(rec_helper.spotify.track(id)['name'],
+                            rec_helper.spot_scaler.transform([feature_vec])[0])
+
+        graph_data = radar_chart.render_data_uri()
+        graph_dict = [{'graph_uri':graph_data},feat_dict]
+        return(jsonify(graph_dict))
+
+
+@app.route('/mood/<key>', methods=['GET'])
+def mood(key):
+    if key == API_KEY:
+        acousticness = request.args.get('acousticness')
+        danceability = request.args.get('danceability')
+        duration_ms = request.args.get('duration_ms')
+        energy = request.args.get('energy')
+        instrumentalness = request.args.get('instrumentalness')
+        key = request.args.get('key')
+        liveness = request.args.get('liveness')
+        loudness = request.args.get('loudness')
+        mode = request.args.get('mode')
+        speechiness = request.args.get('speechiness')
+        tempo = request.args.get('tempo')
+        time_signature = request.args.get('time_signature')
+        id = request.args.get('id')
+
+
+        return('')
 
 if __name__ == '__main__':
     app.run()
