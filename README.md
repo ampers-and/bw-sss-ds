@@ -3,6 +3,7 @@
 The scope of this project was to build an application that uses the Spotify API along with Machine Learning techniques to recommend songs that users are likely to enjoy. 
 
 ###Available Data
+
 We initially took a look at the [Spotify Audio Feature dataset on Kaggle.](https://www.kaggle.com/tomigelo/spotify-audio-features) This dataset has 17 features in total, 13 of which are actual audio features. 
 
 ![alt text](https://github.com/bw-spotify-oct/ds/blob/master/img/feat.png "Logo Title Text 1")
@@ -10,6 +11,7 @@ We initially took a look at the [Spotify Audio Feature dataset on Kaggle.](https
 For the purpose of creating a model, we dropped “artist_name”, “track_name”, and “popularity”. Popularity is an interesting feature due to the fact that it does hold predictive power but is not entirely useful for our model because it is not a constant variable. Songs that have a high popularity score today may not have the same score tomorrow.
 
 ####Here is a rundown of the features we used:
+
 duration_ms - The duration of the track
 
 **key** - The estimated overall key of the track.
