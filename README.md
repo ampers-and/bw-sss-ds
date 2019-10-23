@@ -46,4 +46,21 @@ Ian can fill this section out
 
 To power the Data Science aspect of this project, we needed to build a platform that received calls from the user application, collected data from the Spotify API, implemented our model, and then return rendered data back to the user application. 
 
+
 ![alt text](https://github.com/bw-spotify-oct/ds/blob/master/img/api.png "Logo Title Text 1")
+
+#### Here are a few important calls we created for the API:
+**Song search functionality** - Returns seven songs related to the user search query.
+
+https://spotify-api-helper.herokuapp.com/songs/<api_key>/<user_query>
+
+**Returns**
+'[{"artist":"Florida Georgia Line","id":"498ZVInMGDkmmNVpSWqHiZ","song_name":"May We All","uri":"spotify:track:498ZVInMGDkmmNVpSWqHiZ"},
+{"artist":"Florida Georgia Line","id":"58zWN3BNikOH7zVP6QGBZp","song_name":"May We All - Acoustic","uri":"spotify:track:58zWN3BNikOH7zVP6QGBZp"},
+{"artist":"Florida Georgia Line","id":"6RHDliBPKS2TShFp7UIHF0","song_name":"May We All","uri":"spotify:track:6RHDliBPKS2TShFp7UIHF0"},
+{"artist":"Florida Georgia Line","id":"6GIei0QWZjbrNWNwtTpiQL","song_name":"May We All - Commentary","uri":"spotify:track:6GIei0QWZjbrNWNwtTpiQL"},
+{"artist":"Crooks UK","id":"37KWDhJ3fyBAFVcC0Hutan","song_name":"May Be","uri":"spotify:track:37KWDhJ3fyBAFVcC0Hutan"},
+{"artist":"Florida Georgia Line","id":"0ONccS8Kchy2jgbhF5lg1i","song_name":"May We All","uri":"spotify:track:0ONccS8Kchy2jgbhF5lg1i"},
+{"artist":"Roky Erickson","id":"6VbF4Hm5LTYgKH9R7ss2zZ","song_name":"We Are Never Talking","uri":"spotify:track:6VbF4Hm5LTYgKH9R7ss2zZ"}]'
+
+
