@@ -12,7 +12,7 @@ For the purpose of creating a model, we dropped “artist_name”, “track_name
 
 #### Here is a rundown of the features we used:
 
-__**duration_ms**__ - The duration of the track
+**duration_ms** - The duration of the track
 
 **key** - The estimated overall key of the track.
 
