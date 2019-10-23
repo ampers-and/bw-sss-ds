@@ -88,3 +88,5 @@ https://spotify-api-helper.herokuapp.com/graph_data/<api_key>/<track_id>
 ]
 ~~~
 
+**This is what the rended URI of the chart looks like.**
+![alt text](https://github.com/bw-spotify-oct/ds/blob/master/img/chart.png "Logo Title Text 1")
