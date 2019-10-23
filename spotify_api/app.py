@@ -96,7 +96,33 @@ def graph_data(key, value):
 @app.route('/mood/<key>', methods=['GET'])
 def mood_api(key):
     if key == API_KEY:
-        return jsonify(mood())
+        mood_df = mood()
+
+        feat_dict = {'acousticness': mood_df['acousticness'].iloc[0],
+                    'danceability': mood_df['danceability'].iloc[0],
+                    'duration_ms': mood_df['duration_ms'].iloc[0],
+                    'energy': mood_df['energy'].iloc[0],
+                    'instrumentalness': mood_df['instrumentalness'].iloc[0],
+                    'key': mood_df['key'].iloc[0],
+                    'liveness': mood_df['liveness'].iloc[0],
+                    'loudness': mood_df['loudness'].iloc[0],
+                    'mode': mood_df['mode'].iloc[0],
+                    'speechiness': mood_df['speechiness'].iloc[0],
+                    'tempo': mood_df['tempo'].iloc[0],
+                    'time_signature': mood_df['time_signature'].iloc[0],
+                    'valence': mood_df['valence'].iloc[0]}
+
+        return jsonify(feat_dict)
+
+
+@app.route('/mood_test/<key>/<value>', methods=['GET'])
+def mood_rec_api(key, value):
+    if key == API_KEY:
+        recs = mood_playlist_recs([value])
+
+        return jsonify(recs)
+
+
 
 if __name__ == '__main__':
     app.run()

@@ -141,32 +141,69 @@ def get_songs(song, limit=7):
 # For testing
 # https://spotify-api-helper.herokuapp.com/mood/DReaI4d55IIaiD6P9?acousticness=2&danceability=3&duration_ms=2&energy=9&instrumentalness=6&key=9&liveness=0.14&loudness=7&mode=1&speechiness=.09&tempo=3&time_signature=0.6&valence=.1
 def mood():
-    acousticness = request.args.get('acousticness')
-    danceability = request.args.get('danceability')
-    duration_ms = request.args.get('duration_ms')
-    energy = request.args.get('energy')
-    instrumentalness = request.args.get('instrumentalness')
-    key = request.args.get('key')
-    liveness = request.args.get('liveness')
-    loudness = request.args.get('loudness')
-    mode = request.args.get('mode')
-    speechiness = request.args.get('speechiness')
-    tempo = request.args.get('tempo')
-    time_signature = request.args.get('time_signature')
-    valence = request.args.get('valence')
+    acousticness = float(request.args.get('acousticness'))
+    danceability = float(request.args.get('danceability'))
+    duration_ms = float(request.args.get('duration_ms'))
+    energy = float(request.args.get('energy'))
+    instrumentalness = float(request.args.get('instrumentalness'))
+    key = float(request.args.get('key'))
+    liveness = float(request.args.get('liveness'))
+    loudness = float(request.args.get('loudness'))
+    mode = float(request.args.get('mode'))
+    speechiness = float(request.args.get('speechiness'))
+    tempo = float(request.args.get('tempo'))
+    time_signature = float(request.args.get('time_signature'))
+    valence = float(request.args.get('valence'))
 
-    feat_dict = {'acousticness': acousticness,
-                 'danceability': danceability,
-                 'duration_ms': duration_ms,
-                 'energy': energy,
-                 'instrumentalness': instrumentalness,
-                 'key': key,
-                 'liveness': liveness,
-                 'loudness': loudness,
-                 'mode': mode,
-                 'speechiness': speechiness,
-                 'tempo': tempo,
-                 'time_signature': time_signature,
-                 'valence': valence}
-    return feat_dict
+    df = pd.DataFrame([[acousticness,
+                       danceability,
+                       duration_ms,
+                       energy,
+                       instrumentalness,
+                       key,
+                       liveness,
+                       loudness,
+                       mode,
+                       speechiness,
+                       tempo,
+                       time_signature,
+                       valence]],
+                      columns=['acousticness',
+                               'danceability',
+                               'duration_ms',
+                               'energy',
+                               'instrumentalness',
+                               'key',
+                               'liveness',
+                               'loudness',
+                               'mode',
+                               'speechiness',
+                               'tempo',
+                               'time_signature',
+                               'valence'])
+    return df
 
+
+# Sort a list of songs by how similar they are to given mood
+def mood_recs(song_list, k=5):
+    scaled_feats = mood()
+    df = get_all_features(song_list)
+
+    df_scaled = spot_scaler.transform(df.drop(['id'], axis=1))
+
+    df['dist'] = [norm(x-scaled_feats) for x in df_scaled]
+    top = df.sort_values(by='dist').iloc[0:k]
+
+    return top.drop(['dist'], axis=1)
+
+
+# Given a seed playlist, sort by mood, and use top 5 to get
+# 100 recommendations. Sort these recommendations and get another
+# top 5, which is then returned.
+# http://127.0.0.1:5000/mood_test/0/5ImhD7dhkGVPa0oLiy6R5W?acousticness=2&danceability=1.33&duration_ms=2&energy=.9&instrumentalness=.6&key=.9&liveness=0.14&loudness=.7&mode=1&speechiness=.09&tempo=1.3&time_signature=0.6&valence=.1
+def mood_playlist_recs(playlist, k=5):
+    top_5_playlist = mood_recs(playlist, k=k)
+    rec_100 = get_100(list(top_5_playlist.id.values))
+    top_5 = mood_recs(rec_100, k=k)
+
+    return songs_data(top_5)
