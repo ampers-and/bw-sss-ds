@@ -38,3 +38,12 @@ duration_ms - The duration of the track
 
 **tempo** - In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.
 
+### Creating a Neural Network 
+
+Ian can fill this section out 
+
+### RESTful API with Flask 
+
+To power the Data Science aspect of this project, we needed to build a platform that received calls from the user application, collected data from the Spotify API, implemented our model, and then return rendered data back to the user application. 
+
+![alt text](https://github.com/bw-spotify-oct/ds/blob/master/img/api.png "Logo Title Text 1")
