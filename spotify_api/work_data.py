@@ -87,12 +87,8 @@ def top_recs(target_id, k=5):
     df_scaled = spot_scaler.transform(df.drop(['id'], axis=1))
     song_df_scaled = spot_scaler.transform(song_df.drop(['id'], axis=1))
 
-    df['dist'] = list(map(lambda x:
-                            np.mean(list(map(lambda y: norm(x-y),
-                                             np.array(song_df_scaled)
-                                             ))), 
-                          np.array(df_scaled)
-                          ))
+    df['dist'] = [np.mean([norm(x-y) for y in song_df_scaled])
+                  for x in df_scaled]
     top = df.sort_values(by='dist').iloc[0:k]
 
     return top.drop(['dist'], axis=1)
