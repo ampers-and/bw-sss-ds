@@ -5,6 +5,8 @@ from dotenv import load_dotenv
 from work_data import *
 from flask_cors import CORS
 import pygal
+from pygal.style import Style
+from chart_style import fixed_style
 
 load_dotenv()
 
@@ -56,7 +58,9 @@ def graph(key, value):
 
         features = pd.concat([get_all_features([value]), recs])
 
-        radar_chart = pygal.Radar()
+        custom_style = fixed_style
+
+        radar_chart = pygal.Radar(style=custom_style)
         radar_chart.title = ('Comparison of Recommendations for \"' +
                              spotify.track(value)['name'] + '\"')
         radar_chart.x_labels = list(features.drop('id', axis=1).keys())
@@ -79,7 +83,10 @@ def graph_data(key, value):
         features = pd.concat([get_all_features([value]), recs])
 
         feat_dict = songs_data(features)
-        radar_chart = pygal.Radar()
+
+        custom_style = fixed_style
+        radar_chart = pygal.Radar(style=custom_style)
+
         radar_chart.title = ('Comparison of Recommendations for \"' +
                              spotify.track(value)['name'] + '\"')
         radar_chart.x_labels = list(features.drop('id', axis=1).keys())
@@ -122,7 +129,24 @@ def mood_rec_api(key, value):
 
         return jsonify(recs)
 
+@app.route('/single_song_graph/<key>/<value>')
+def sigle_song_graph(key, value):
+    if key == API_KEY:
 
+        features = get_all_features([value])
+
+        custom_style = fixed_style
+        radar_chart = pygal.Radar(style=custom_style)
+
+        radar_chart.x_labels = list(features.drop('id', axis=1).keys())
+
+        for id, feature_vec in zip(features.id, features.drop('id', axis=1).values):
+            radar_chart.add(spotify.track(id)['name'],
+                            spot_scaler.transform([feature_vec])[0])
+
+        graph_data = radar_chart.render_data_uri()
+
+        return jsonify({'graph_uri':graph_data})
 
 if __name__ == '__main__':
     app.run()
