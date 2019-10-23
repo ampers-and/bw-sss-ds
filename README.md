@@ -52,7 +52,9 @@ To power the Data Science aspect of this project, we needed to build a platform 
 #### Here are a few important calls we created for the API:
 **Song search functionality** - Returns seven songs related to the user search query.
 
+~~~
 https://spotify-api-helper.herokuapp.com/songs/<api_key>/<user_query>
+~~~
 
 **Returns**
 ~~~
@@ -67,4 +69,22 @@ https://spotify-api-helper.herokuapp.com/songs/<api_key>/<user_query>
 ]
 ~~~
 
+**Graph URI & Recommended Song Data** - Returns the graph URI and five recommended songs based on a single song ID. 
+
+~~~
+https://spotify-api-helper.herokuapp.com/graph_data/<api_key>/<track_id>
+~~~
+
+**Returns**
+~~~
+[
+{"graph_uri":"data:image/svg+xml;charset=utf-8;base64,PD94b...2c+PC9zdmc+"},
+[{"artist":"Florida Georgia Line","id":"498ZVInMGDkmmNVpSWqHiZ","large_image":"https://i.scdn.co/image/205ec78bebfdc739bb3bb91076306e24f03c7d2c","med_image":"https://i.scdn.co/image/9ce932460729587fd8dccdac9214d741e127e162","small_image":"https://i.scdn.co/image/edc3a84866acc208acb5dbca21f05dda9a7eae99","song_name":"May We All","uri":"spotify:track:498ZVInMGDkmmNVpSWqHiZ"},
+{"artist":"Maren Morris","id":"58spuRyMUsjKHQHEGwLC99","large_image":"https://i.scdn.co/image/ab67616d0000b2738bd4a20032a613d28e909109","med_image":"https://i.scdn.co/image/ab67616d00001e028bd4a20032a613d28e909109","small_image":"https://i.scdn.co/image/ab67616d000048518bd4a20032a613d28e909109","song_name":"80s Mercedes","uri":"spotify:track:58spuRyMUsjKHQHEGwLC99"},
+{"artist":"Dustin Lynch","id":"2YMhrXQYKkm4kXLcXKKd5z","large_image":"https://i.scdn.co/image/ab67616d0000b2734686b4078ad5eb92315d28e0","med_image":"https://i.scdn.co/image/ab67616d00001e024686b4078ad5eb92315d28e0","small_image":"https://i.scdn.co/image/ab67616d000048514686b4078ad5eb92315d28e0","song_name":"Small Town Boy","uri":"spotify:track:2YMhrXQYKkm4kXLcXKKd5z"},
+{"artist":"Maren Morris","id":"4H0vNUFcHPz5lytcLjwqkr","large_image":"https://i.scdn.co/image/ab67616d0000b2738bd4a20032a613d28e909109","med_image":"https://i.scdn.co/image/ab67616d00001e028bd4a20032a613d28e909109","small_image":"https://i.scdn.co/image/ab67616d000048518bd4a20032a613d28e909109","song_name":"Rich","uri":"spotify:track:4H0vNUFcHPz5lytcLjwqkr"},
+{"artist":"Cole Swindell","id":"3y1t2sEahs8idFz2tiYNPO","large_image":"https://i.scdn.co/image/ab67616d0000b2734f239e3ce20b8e350244e84a","med_image":"https://i.scdn.co/image/ab67616d00001e024f239e3ce20b8e350244e84a","small_image":"https://i.scdn.co/image/ab67616d000048514f239e3ce20b8e350244e84a","song_name":"Let Me See Ya Girl","uri":"spotify:track:3y1t2sEahs8idFz2tiYNPO"},
+{"artist":"Jon Pardi","id":"0bPnT6i9H1p8Vd85GS6Z7I","large_image":"https://i.scdn.co/image/ab67616d0000b2730504a96f206bc32ebe198b83","med_image":"https://i.scdn.co/image/ab67616d00001e020504a96f206bc32ebe198b83","small_image":"https://i.scdn.co/image/ab67616d000048510504a96f206bc32ebe198b83","song_name":"Night Shift","uri":"spotify:track:0bPnT6i9H1p8Vd85GS6Z7I"}]
+]
+~~~
 
