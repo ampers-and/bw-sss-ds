@@ -10,7 +10,7 @@ We initially took a look at the [Spotify Audio Feature dataset on Kaggle.](https
 
 For the purpose of creating a model, we dropped “artist_name”, “track_name”, and “popularity”. Popularity is an interesting feature due to the fact that it does hold predictive power but is not entirely useful for our model because it is not a constant variable. Songs that have a high popularity score today may not have the same score tomorrow.
 
-#### Here is a rundown of the features we used:
+### Here is a rundown of the features we used:
 
 **duration_ms** - The duration of the track
 
