@@ -59,7 +59,7 @@ def graph(key, value):
         radar_chart = pygal.Radar()
         radar_chart.title = ('Comparison of Recommendations for \"' +
                              spotify.track(value)['name'] + '\"')
-        radar_chart.x_labels = list(features.keys())
+        radar_chart.x_labels = list(features.drop('id', axis=1).keys())
 
         for id, feature_vec in zip(features.id, features.drop('id', axis=1).values):
             radar_chart.add(spotify.track(id)['name'],
@@ -82,7 +82,7 @@ def graph_data(key, value):
         radar_chart = pygal.Radar()
         radar_chart.title = ('Comparison of Recommendations for \"' +
                              spotify.track(value)['name'] + '\"')
-        radar_chart.x_labels = list(features.keys())
+        radar_chart.x_labels = list(features.drop('id', axis=1).keys())
 
         for id, feature_vec in zip(features.id, features.drop('id', axis=1).values):
             radar_chart.add(spotify.track(id)['name'],
