@@ -185,6 +185,7 @@ def mood():
 
 
 # Sort a list of songs by how similar they are to given mood
+# then return top 5
 def mood_recs(song_list, k=5):
     scaled_feats = mood()
     df = get_all_features(song_list)
