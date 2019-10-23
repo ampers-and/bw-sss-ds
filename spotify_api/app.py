@@ -16,21 +16,21 @@ CORS(app)
 
 @app.route('/')
 def home():
-    return(render_template('home.html'))
+    return render_template('home.html')
 
 
 @app.route('/songs/<key>/<value>')
 def song_search(key, value):
     if key == API_KEY:
         songs = get_songs(value)
-        return(jsonify(songs))
+        return jsonify(songs)
 
 
 @app.route('/features/<key>/<value>')
 def song_features(key, value):
     if key == API_KEY:
         features = get_features(value)
-        return(jsonify(features))
+        return jsonify(features)
 
 
 @app.route('/recs/<key>/<value>')
@@ -38,7 +38,7 @@ def recommendations(key, value):
     if key == API_KEY:
         recs = rec_data([value])
 
-        return(jsonify(recs))
+        return jsonify(recs)
 
 
 @app.route('/embed/<key>/<value>')
@@ -46,7 +46,7 @@ def embed(key, value):
     if key == API_KEY:
         recs = rec_data([value])
 
-        return(render_template('embed.html', recs=recs))
+        return render_template('embed.html', recs=recs)
 
 
 @app.route('/graph/<key>/<value>')
@@ -67,9 +67,9 @@ def graph(key, value):
 
         graph_data = radar_chart.render_data_uri()
 
-        return(render_template('radar.html',
+        return render_template('radar.html',
                                 graph_data=graph_data,
-                                title='Song Feature Graph'))
+                                title='Song Feature Graph')
 
 @app.route('/graph_data/<key>/<value>')
 def graph_data(key, value):
@@ -90,15 +90,13 @@ def graph_data(key, value):
 
         graph_data = radar_chart.render_data_uri()
         graph_dict = [{'graph_uri':graph_data},feat_dict]
-        return(jsonify(graph_dict))
+        return jsonify(graph_dict)
 
 
 @app.route('/mood/<key>', methods=['GET'])
 def mood_api(key):
     if key == API_KEY:
-        recs = mood()
-
-        return(jsonify(recs))
+        return jsonify(mood())
 
 if __name__ == '__main__':
     app.run()

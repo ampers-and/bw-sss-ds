@@ -25,7 +25,7 @@ spot_scaler = load('SpotScaler.joblib')
 def get_100(target_id):
     res = spotify.recommendations(seed_tracks=target_id, limit=100)
     ids = [i['id'] for i in res['tracks']]
-    return(ids)
+    return ids
 
 
 def audio_features_to_dict(feats):
@@ -51,10 +51,7 @@ def get_features(target_id):
 
     return audio_features_to_dict(res)
 
-
-def get_all_features(list_id):
-    feats_list = spotify.audio_features(tracks=list_id)
-
+def audio_features_to_df(feats_list):
     df = pd.DataFrame(columns=['acousticness',
                                'danceability',
                                'duration_ms',
@@ -69,29 +66,40 @@ def get_all_features(list_id):
                                'time_signature',
                                'valence',
                                'id'])
-
     for feat in feats_list:
         feat_dict = audio_features_to_dict(feat)
         df = df.append(feat_dict, ignore_index=True)
-    return(df)
+    return df
+
+def get_all_features(list_id):
+    feats_list = spotify.audio_features(tracks=list_id)
+
+    df = audio_features_to_df(feats_list)
+
+    return df
 
 
 # Take the mean of the distances between the list of
-# reccomendations and the input options.
+# recommendations and a feature vector
 # NOTE: The mean of the distance is NOT the same
 #       as the distance from the mean
-def top_recs(target_id, k=5):
-    df = get_all_features(get_100(target_id))
-    song_df = get_all_features(target_id)
+def feat_recs(target_feats, top_100, k=5):
+    df = get_all_features(top_100)
 
     df_scaled = spot_scaler.transform(df.drop(['id'], axis=1))
-    song_df_scaled = spot_scaler.transform(song_df.drop(['id'], axis=1))
+    song_df_scaled = spot_scaler.transform(target_feats.drop(['id'], axis=1))
 
     df['dist'] = [np.mean([norm(x-y) for y in song_df_scaled])
                   for x in df_scaled]
     top = df.sort_values(by='dist').iloc[0:k]
 
     return top.drop(['dist'], axis=1)
+
+
+# Take the mean of the distances between the list of
+# recommendations and the input options.
+def top_recs(target_id, k=5):
+    return feat_recs(get_all_features(target_id), get_100(target_id), k=k)
 
 
 # Get an array of data pertaining to a list of recommendations
@@ -127,8 +135,11 @@ def get_songs(song, limit=7):
                        'artist': i['artists'][0]['name'],
                        'id': i['id'],
                        'uri': i['uri']})
-    return(tracks)
+    return tracks
 
+
+# For testing
+# https://spotify-api-helper.herokuapp.com/mood/DReaI4d55IIaiD6P9?acousticness=2&danceability=3&duration_ms=2&energy=9&instrumentalness=6&key=9&liveness=0.14&loudness=7&mode=1&speechiness=.09&tempo=3&time_signature=0.6&valence=.1
 def mood():
     acousticness = request.args.get('acousticness')
     danceability = request.args.get('danceability')
@@ -142,9 +153,20 @@ def mood():
     speechiness = request.args.get('speechiness')
     tempo = request.args.get('tempo')
     time_signature = request.args.get('time_signature')
+    valence = request.args.get('valence')
 
-    return([acousticness, danceability, duration_ms, energy, instrumentalness, key,
-            liveness, loudness, mode, speechiness, tempo, time_signature])
+    feat_dict = {'acousticness': acousticness,
+                 'danceability': danceability,
+                 'duration_ms': duration_ms,
+                 'energy': energy,
+                 'instrumentalness': instrumentalness,
+                 'key': key,
+                 'liveness': liveness,
+                 'loudness': loudness,
+                 'mode': mode,
+                 'speechiness': speechiness,
+                 'tempo': tempo,
+                 'time_signature': time_signature,
+                 'valence': valence}
+    return feat_dict
 
-
-#https://spotify-api-helper.herokuapp.com/mood/DReaI4d55IIaiD6P9?acousticness=2&danceability=3&duration_ms=2&energy=9&instrumentalness=6&key=9&liveness=0.14&loudness=7&mode=1&speechiness=.09&tempo=3&time_signature=0.6
