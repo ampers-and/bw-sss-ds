@@ -123,26 +123,18 @@ def songs_data(res_df):
     vals = res_df.id.values
     song_info = []
     for i in vals:
-        tracks = spotify.track(i)
-        song_info.append({'large_image': tracks['album']['images'][0]['url'],
-                          'med_image': tracks['album']['images'][1]['url'],
-                          'small_image': tracks['album']['images'][2]['url'],
-                          'artist': tracks['artists'][0]['name'],
-                          'song_name': tracks['name'],
-                          'id': tracks['id'],
-                          'uri': tracks['uri']})
+        song_info.append(songs_data_single(i))
     return song_info
 
 def songs_data_single(id):
-
     tracks = spotify.track(id)
     t = {'large_image': tracks['album']['images'][0]['url'],
-                      'med_image': tracks['album']['images'][1]['url'],
-                      'small_image': tracks['album']['images'][2]['url'],
-                      'artist': tracks['artists'][0]['name'],
-                      'song_name': tracks['name'],
-                      'id': tracks['id'],
-                      'uri': tracks['uri']}
+         'med_image': tracks['album']['images'][1]['url'],
+         'small_image': tracks['album']['images'][2]['url'],
+         'artist': tracks['artists'][0]['name'],
+         'song_name': tracks['name'],
+         'id': tracks['id'],
+         'uri': tracks['uri']}
     return t
 
 # Get an array of data pertaining to a list of recommendations based on target
