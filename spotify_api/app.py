@@ -34,7 +34,8 @@ def auto_search(key, value):
         songs = songs[0]
         id = songs['id']
         recs = rec_data([id])
-        recs.insert(0,songs)
+        track = songs_data_single(id)
+        recs.insert(0,track)
         return jsonify(recs)
 
 
