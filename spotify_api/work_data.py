@@ -171,6 +171,7 @@ def get_songs(song, limit=7):
                        'uri': i['uri']})
     return tracks
 
+# get_songs_with_pic : String -> Vect (Dict (song_data))
 def get_songs_with_pic(song, limit=7):
     songs = spotify.search(song,
                            limit=limit,
