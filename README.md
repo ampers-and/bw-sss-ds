@@ -126,3 +126,30 @@ https://spotify-api-helper.herokuapp.com/recs/<api_key>/<track_id>
 {"artist":"Frankie Ballard","id":"61jWRBNxdM3sO5oKLwZV9y","large_image":"https://i.scdn.co/image/ab67616d0000b27351f2b6933052de5d3c16fc7a","med_image":"https://i.scdn.co/image/ab67616d00001e0251f2b6933052de5d3c16fc7a","small_image":"https://i.scdn.co/image/ab67616d0000485151f2b6933052de5d3c16fc7a","song_name":"You'll Accomp'ny Me","uri":"spotify:track:61jWRBNxdM3sO5oKLwZV9y"}
 ]
 ~~~
+
+**Mood Recs** - Takes mood values and saved songs. 
+
+~~~
+https://spotify-api-helper.herokuapp.com/playlist_mood_recs/<key>?acousticness=<num>&danceability=<num>&duration_ms=<num>&energy=<num>&instrumentalness=<num>&key=<num>&liveness=<num>&loudness=<num>&mode=<num>&speechiness=<num>&tempo=<num>&time_signature=<num>&valence=<num>&playlist=<[array or saved songs]>
+~~~
+
+**Returns**
+~~~
+[
+{"graph_uri":"data:image/svg+xml;charset=utf-8;base64,PD94bWw...vc3ZnPg=="},{"acousticness":2.0,"danceability":1.33,"duration_ms":2.0,"energy":0.9,"instrumentalness":0.6,"key":0.9,"liveness":0.14,"loudness":0.7,"mode":1.0,"speechiness":0.09,"tempo":1.3,"time_signature":0.6,"valence":0.1},[{"artist":"Zac Brown Band","id":"4dGJf1SER1T6ooX46vwzRB","large_image":"https://i.scdn.co/image/ab67616d0000b2733f6f4ab78c05dfdfcc37a205","med_image":"https://i.scdn.co/image/ab67616d00001e023f6f4ab78c05dfdfcc37a205","small_image":"https://i.scdn.co/image/ab67616d000048513f6f4ab78c05dfdfcc37a205","song_name":"Chicken Fried","uri":"spotify:track:4dGJf1SER1T6ooX46vwzRB"},{"artist":"Trisha Yearwood","id":"2ulBBx6YQ3qY3ci34RadtN","large_image":"https://i.scdn.co/image/ab67616d0000b273bf4093011674adea23a1354b","med_image":"https://i.scdn.co/image/ab67616d00001e02bf4093011674adea23a1354b","small_image":"https://i.scdn.co/image/ab67616d00004851bf4093011674adea23a1354b","song_name":"She's In Love With The Boy - Single Version","uri":"spotify:track:2ulBBx6YQ3qY3ci34RadtN"},{"artist":"Russell Dickerson","id":"0vBMmF78QgtWY6dDNDPhbv","large_image":"https://i.scdn.co/image/ab67616d0000b273c1dfda1b94b3db5bcdeabf0d","med_image":"https://i.scdn.co/image/ab67616d00001e02c1dfda1b94b3db5bcdeabf0d","small_image":"https://i.scdn.co/image/ab67616d00004851c1dfda1b94b3db5bcdeabf0d","song_name":"Yours - Wedding Edition","uri":"spotify:track:0vBMmF78QgtWY6dDNDPhbv"},{"artist":"Dixie Chicks","id":"6cjwec9ii5uLK7CDfPBYt1","large_image":"https://i.scdn.co/image/ab67616d0000b2737c2a9c9ce2e9016223cdb74a","med_image":"https://i.scdn.co/image/ab67616d00001e027c2a9c9ce2e9016223cdb74a","small_image":"https://i.scdn.co/image/ab67616d000048517c2a9c9ce2e9016223cdb74a","song_name":"Wide Open Spaces","uri":"spotify:track:6cjwec9ii5uLK7CDfPBYt1"},{"artist":"Jerrod Niemann","id":"1HYKv0B6bYycqpxWHydKy9","large_image":"https://i.scdn.co/image/ab67616d0000b273c4391dcea9cbe6596f316e3c","med_image":"https://i.scdn.co/image/ab67616d00001e02c4391dcea9cbe6596f316e3c","small_image":"https://i.scdn.co/image/ab67616d00004851c4391dcea9cbe6596f316e3c","song_name":"One More Drinkin' Song","uri":"spotify:track:1HYKv0B6bYycqpxWHydKy9"}]
+]
+~~~
+
+**Playlist Recs** - Takes saved songs and returns recs. 
+
+~~~
+https://spotify-api-helper.herokuapp.com/playlist_recs/<key>?playlist=<[array or saved songs]>
+~~~
+
+**Returns**
+~~~
+[
+{"graph_uri":"data:image/svg+xml;charset=utf-8;base64,PD94bWw...vc3ZnPg=="},{"acousticness":2.0,"danceability":1.33,"duration_ms":2.0,"energy":0.9,"instrumentalness":0.6,"key":0.9,"liveness":0.14,"loudness":0.7,"mode":1.0,"speechiness":0.09,"tempo":1.3,"time_signature":0.6,"valence":0.1},[{"artist":"Zac Brown Band","id":"4dGJf1SER1T6ooX46vwzRB","large_image":"https://i.scdn.co/image/ab67616d0000b2733f6f4ab78c05dfdfcc37a205","med_image":"https://i.scdn.co/image/ab67616d00001e023f6f4ab78c05dfdfcc37a205","small_image":"https://i.scdn.co/image/ab67616d000048513f6f4ab78c05dfdfcc37a205","song_name":"Chicken Fried","uri":"spotify:track:4dGJf1SER1T6ooX46vwzRB"},{"artist":"Trisha Yearwood","id":"2ulBBx6YQ3qY3ci34RadtN","large_image":"https://i.scdn.co/image/ab67616d0000b273bf4093011674adea23a1354b","med_image":"https://i.scdn.co/image/ab67616d00001e02bf4093011674adea23a1354b","small_image":"https://i.scdn.co/image/ab67616d00004851bf4093011674adea23a1354b","song_name":"She's In Love With The Boy - Single Version","uri":"spotify:track:2ulBBx6YQ3qY3ci34RadtN"},{"artist":"Russell Dickerson","id":"0vBMmF78QgtWY6dDNDPhbv","large_image":"https://i.scdn.co/image/ab67616d0000b273c1dfda1b94b3db5bcdeabf0d","med_image":"https://i.scdn.co/image/ab67616d00001e02c1dfda1b94b3db5bcdeabf0d","small_image":"https://i.scdn.co/image/ab67616d00004851c1dfda1b94b3db5bcdeabf0d","song_name":"Yours - Wedding Edition","uri":"spotify:track:0vBMmF78QgtWY6dDNDPhbv"},{"artist":"Dixie Chicks","id":"6cjwec9ii5uLK7CDfPBYt1","large_image":"https://i.scdn.co/image/ab67616d0000b2737c2a9c9ce2e9016223cdb74a","med_image":"https://i.scdn.co/image/ab67616d00001e027c2a9c9ce2e9016223cdb74a","small_image":"https://i.scdn.co/image/ab67616d000048517c2a9c9ce2e9016223cdb74a","song_name":"Wide Open Spaces","uri":"spotify:track:6cjwec9ii5uLK7CDfPBYt1"},{"artist":"Jerrod Niemann","id":"1HYKv0B6bYycqpxWHydKy9","large_image":"https://i.scdn.co/image/ab67616d0000b273c4391dcea9cbe6596f316e3c","med_image":"https://i.scdn.co/image/ab67616d00001e02c4391dcea9cbe6596f316e3c","small_image":"https://i.scdn.co/image/ab67616d00004851c4391dcea9cbe6596f316e3c","song_name":"One More Drinkin' Song","uri":"spotify:track:1HYKv0B6bYycqpxWHydKy9"}]
+]
+~~~
+
