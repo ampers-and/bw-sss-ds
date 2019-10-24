@@ -100,6 +100,36 @@ def graph_data(key, value):
         return jsonify(graph_dict)
 
 
+# http://127.0.0.1:5000/avg_mood/0?playlist=['1h2vCbRUWpWnYEgb2hfQbi','498ZVInMGDkmmNVpSWqHiZ','3bidbhpOYeV4knp8AIu8Xn','7B1QliUMZv7gSTUGAfMRRD','2qYsSHsYkihWx043HVJQRV']
+# Get default mood from playlist
+@app.route('/avg_mood/<key>', methods=['GET'])
+def avg_mood(key):
+    if key == API_KEY:
+        value = request.args.get('playlist')
+
+        playlist = playlist_str_to_ls(value)
+
+        feats = default_mood(playlist)
+
+        return jsonify(feats)
+
+
+# http://127.0.0.1:5000/playlist_recs/0?playlist=['1h2vCbRUWpWnYEgb2hfQbi','498ZVInMGDkmmNVpSWqHiZ','3bidbhpOYeV4knp8AIu8Xn','7B1QliUMZv7gSTUGAfMRRD','2qYsSHsYkihWx043HVJQRV','7x9Am1UW3C5yCZLSysEWxX','7lWF2mVr1KKbVnaT2nSlPo','4ycLiPVzE5KamivXrAzGFG','05qCCJQJiOwvPQBb7akf1R','1ONoPkp5XIuw3tZ1GzrNKZ','3ZjnFYlal0fXN6t61wdxhl']
+# http://127.0.0.1:5000/playlist_recs/0?playlist=['1h2vCbRUWpWnYEgb2hfQbi','498ZVInMGDkmmNVpSWqHiZ','3bidbhpOYeV4knp8AIu8Xn','7B1QliUMZv7gSTUGAfMRRD','2qYsSHsYkihWx043HVJQRV']
+# http://127.0.0.1:5000/playlist_recs/0?playlist=['1h2vCbRUWpWnYEgb2hfQbi','498ZVInMGDkmmNVpSWqHiZ','3bidbhpOYeV4knp8AIu8Xn']
+# Getting recomendations from playlist alone
+@app.route('/playlist_recs/<key>')
+def playlist_recs(key):
+    if key == API_KEY:
+        value = request.args.get('playlist')
+
+        playlist = playlist_str_to_ls(value)
+
+        recs = rec_data(playlist)
+
+        return jsonify(recs)
+
+
 @app.route('/mood/<key>', methods=['GET'])
 def mood_api(key):
     if key == API_KEY:
@@ -128,6 +158,7 @@ def mood_rec_api(key, value):
         recs = mood_playlist_recs([value])
 
         return jsonify(recs)
+
 
 @app.route('/single_song_graph/<key>/<value>')
 def sigle_song_graph(key, value):

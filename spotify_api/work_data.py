@@ -9,6 +9,7 @@ import numpy as np
 from numpy.linalg import norm
 from joblib import load
 from flask import Flask, render_template, request
+import random
 
 CLIENT_ID = config("CLIENT_ID")
 CLIENT_SECRET = config("CLIENT_SECRET")
@@ -21,14 +22,24 @@ spotify = spotipy.Spotify(auth=token)
 spot_scaler = load('SpotScaler.joblib')
 
 
+# Given a list of songs, select, at most, five of them at random.
+def random_song_selector(playlist):
+    if len(playlist) < 5:
+        return playlist
+    else:
+        return random.sample(playlist, k=5)
+
+
 # get the ids of 100 recommendations from spotify
-def get_100(target_id):
-    res = spotify.recommendations(seed_tracks=target_id, limit=100)
+def get_100(target_ids):
+    playlist = random_song_selector(target_ids)
+
+    res = spotify.recommendations(seed_tracks=playlist, limit=100)
     ids = [i['id'] for i in res['tracks']]
     return ids
 
 
-def audio_features_to_dict(feats):
+def audio_features_to_dict(feats, get_id=True):
     feat_dict = {'acousticness': feats['acousticness'],
                  'danceability': feats['danceability'],
                  'duration_ms': feats['duration_ms'],
@@ -41,8 +52,9 @@ def audio_features_to_dict(feats):
                  'speechiness': feats['speechiness'],
                  'tempo': feats['tempo'],
                  'time_signature': feats['time_signature'],
-                 'valence': feats['valence'],
-                 'id': feats['id']}
+                 'valence': feats['valence']}
+    if get_id:
+       feat_dict['id'] = feats['id']
     return feat_dict
 
 
@@ -51,21 +63,25 @@ def get_features(target_id):
 
     return audio_features_to_dict(res)
 
-def audio_features_to_df(feats_list):
-    df = pd.DataFrame(columns=['acousticness',
-                               'danceability',
-                               'duration_ms',
-                               'energy',
-                               'instrumentalness',
-                               'key',
-                               'liveness',
-                               'loudness',
-                               'mode',
-                               'speechiness',
-                               'tempo',
-                               'time_signature',
-                               'valence',
-                               'id'])
+
+def audio_features_to_df(feats_list, has_id=True):
+    columns = ['acousticness',
+               'danceability',
+               'duration_ms',
+               'energy',
+               'instrumentalness',
+               'key',
+               'liveness',
+               'loudness',
+               'mode',
+               'speechiness',
+               'tempo',
+               'time_signature',
+               'valence']
+    if has_id:
+        columns.append('id')
+
+    df = pd.DataFrame(columns=columns)
     for feat in feats_list:
         feat_dict = audio_features_to_dict(feat)
         df = df.append(feat_dict, ignore_index=True)
@@ -138,6 +154,23 @@ def get_songs(song, limit=7):
     return tracks
 
 
+def construct_mood(feats):
+    feat_dict = {'acousticness': feats[0],
+                 'danceability': feats[1],
+                 'duration_ms': feats[2],
+                 'energy': feats[3],
+                 'instrumentalness': feats[4],
+                 'key': feats[5],
+                 'liveness': feats[6],
+                 'loudness': feats[7],
+                 'mode': feats[8],
+                 'speechiness': feats[9],
+                 'tempo': feats[10],
+                 'time_signature': feats[11],
+                 'valence': feats[12]}
+    return feat_dict
+
+
 # For testing
 # https://spotify-api-helper.herokuapp.com/mood/DReaI4d55IIaiD6P9?acousticness=2&danceability=3&duration_ms=2&energy=9&instrumentalness=6&key=9&liveness=0.14&loudness=7&mode=1&speechiness=.09&tempo=3&time_signature=0.6&valence=.1
 def mood():
@@ -155,39 +188,25 @@ def mood():
     time_signature = float(request.args.get('time_signature'))
     valence = float(request.args.get('valence'))
 
-    df = pd.DataFrame([[acousticness,
-                       danceability,
-                       duration_ms,
-                       energy,
-                       instrumentalness,
-                       key,
-                       liveness,
-                       loudness,
-                       mode,
-                       speechiness,
-                       tempo,
-                       time_signature,
-                       valence]],
-                      columns=['acousticness',
-                               'danceability',
-                               'duration_ms',
-                               'energy',
-                               'instrumentalness',
-                               'key',
-                               'liveness',
-                               'loudness',
-                               'mode',
-                               'speechiness',
-                               'tempo',
-                               'time_signature',
-                               'valence'])
-    return df
+    return construct_mood([acousticness,
+                           danceability,
+                           duration_ms,
+                           energy,
+                           instrumentalness,
+                           key,
+                           liveness,
+                           loudness,
+                           mode,
+                           speechiness,
+                           tempo,
+                           time_signature,
+                           valence])
 
 
 # Sort a list of songs by how similar they are to given mood
 # then return top 5
 def mood_recs(song_list, k=5):
-    scaled_feats = mood()
+    scaled_feats = audio_features_to_df(mood(), has_id=False)
     df = get_all_features(song_list)
 
     df_scaled = spot_scaler.transform(df.drop(['id'], axis=1))
@@ -208,3 +227,18 @@ def mood_playlist_recs(playlist, k=5):
     top_5 = mood_recs(rec_100, k=k)
 
     return songs_data(top_5)
+
+
+# Given a playlist, get a default mood, the mean
+def default_mood(playlist):
+    df = get_all_features(playlist)
+    df_scaled = spot_scaler.transform(df.drop(['id'], axis=1))
+
+    mean_feats = np.mean(df_scaled, axis=0)
+
+    return construct_mood(mean_feats) 
+
+
+# Convert a playlist, represented as a string, into a list.
+def playlist_str_to_ls(playlist_str):
+    return playlist_str.strip('[]').replace("'", '').split(',')
