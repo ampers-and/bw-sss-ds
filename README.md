@@ -126,3 +126,50 @@ https://spotify-api-helper.herokuapp.com/recs/<api_key>/<track_id>
 {"artist":"Frankie Ballard","id":"61jWRBNxdM3sO5oKLwZV9y","large_image":"https://i.scdn.co/image/ab67616d0000b27351f2b6933052de5d3c16fc7a","med_image":"https://i.scdn.co/image/ab67616d00001e0251f2b6933052de5d3c16fc7a","small_image":"https://i.scdn.co/image/ab67616d0000485151f2b6933052de5d3c16fc7a","song_name":"You'll Accomp'ny Me","uri":"spotify:track:61jWRBNxdM3sO5oKLwZV9y"}
 ]
 ~~~
+
+**Mood Recs** - Takes mood values and saved songs. 
+
+~~~
+https://spotify-api-helper.herokuapp.com/playlist_mood_recs/<key>?acousticness=<num>&danceability=<num>&duration_ms=<num>&energy=<num>&instrumentalness=<num>&key=<num>&liveness=<num>&loudness=<num>&mode=<num>&speechiness=<num>&tempo=<num>&time_signature=<num>&valence=<num>&playlist=<[array or saved songs]>
+~~~
+
+**Returns**
+~~~
+[
+{"graph_uri":"data:image/svg+xml;charset=utf-8;base64,PD94bWw...vc3ZnPg=="},{"acousticness":2.0,"danceability":1.33,"duration_ms":2.0,"energy":0.9,"instrumentalness":0.6,"key":0.9,"liveness":0.14,"loudness":0.7,"mode":1.0,"speechiness":0.09,"tempo":1.3,"time_signature":0.6,"valence":0.1},[{"artist":"Zac Brown Band","id":"4dGJf1SER1T6ooX46vwzRB","large_image":"https://i.scdn.co/image/ab67616d0000b2733f6f4ab78c05dfdfcc37a205","med_image":"https://i.scdn.co/image/ab67616d00001e023f6f4ab78c05dfdfcc37a205","small_image":"https://i.scdn.co/image/ab67616d000048513f6f4ab78c05dfdfcc37a205","song_name":"Chicken Fried","uri":"spotify:track:4dGJf1SER1T6ooX46vwzRB"},{"artist":"Trisha Yearwood","id":"2ulBBx6YQ3qY3ci34RadtN","large_image":"https://i.scdn.co/image/ab67616d0000b273bf4093011674adea23a1354b","med_image":"https://i.scdn.co/image/ab67616d00001e02bf4093011674adea23a1354b","small_image":"https://i.scdn.co/image/ab67616d00004851bf4093011674adea23a1354b","song_name":"She's In Love With The Boy - Single Version","uri":"spotify:track:2ulBBx6YQ3qY3ci34RadtN"},{"artist":"Russell Dickerson","id":"0vBMmF78QgtWY6dDNDPhbv","large_image":"https://i.scdn.co/image/ab67616d0000b273c1dfda1b94b3db5bcdeabf0d","med_image":"https://i.scdn.co/image/ab67616d00001e02c1dfda1b94b3db5bcdeabf0d","small_image":"https://i.scdn.co/image/ab67616d00004851c1dfda1b94b3db5bcdeabf0d","song_name":"Yours - Wedding Edition","uri":"spotify:track:0vBMmF78QgtWY6dDNDPhbv"},{"artist":"Dixie Chicks","id":"6cjwec9ii5uLK7CDfPBYt1","large_image":"https://i.scdn.co/image/ab67616d0000b2737c2a9c9ce2e9016223cdb74a","med_image":"https://i.scdn.co/image/ab67616d00001e027c2a9c9ce2e9016223cdb74a","small_image":"https://i.scdn.co/image/ab67616d000048517c2a9c9ce2e9016223cdb74a","song_name":"Wide Open Spaces","uri":"spotify:track:6cjwec9ii5uLK7CDfPBYt1"},{"artist":"Jerrod Niemann","id":"1HYKv0B6bYycqpxWHydKy9","large_image":"https://i.scdn.co/image/ab67616d0000b273c4391dcea9cbe6596f316e3c","med_image":"https://i.scdn.co/image/ab67616d00001e02c4391dcea9cbe6596f316e3c","small_image":"https://i.scdn.co/image/ab67616d00004851c4391dcea9cbe6596f316e3c","song_name":"One More Drinkin' Song","uri":"spotify:track:1HYKv0B6bYycqpxWHydKy9"}]
+]
+~~~
+
+**Playlist Recs** - Takes saved songs and returns recs. 
+
+~~~
+https://spotify-api-helper.herokuapp.com/playlist_recs/<key>?playlist=<[array or saved songs]>
+~~~
+
+**Returns**
+~~~
+[
+{"graph_uri":"data:image/svg+xml;charset=utf-8;base64,PD94bWw...vc3ZnPg=="},{"acousticness":2.0,"danceability":1.33,"duration_ms":2.0,"energy":0.9,"instrumentalness":0.6,"key":0.9,"liveness":0.14,"loudness":0.7,"mode":1.0,"speechiness":0.09,"tempo":1.3,"time_signature":0.6,"valence":0.1},[{"artist":"Zac Brown Band","id":"4dGJf1SER1T6ooX46vwzRB","large_image":"https://i.scdn.co/image/ab67616d0000b2733f6f4ab78c05dfdfcc37a205","med_image":"https://i.scdn.co/image/ab67616d00001e023f6f4ab78c05dfdfcc37a205","small_image":"https://i.scdn.co/image/ab67616d000048513f6f4ab78c05dfdfcc37a205","song_name":"Chicken Fried","uri":"spotify:track:4dGJf1SER1T6ooX46vwzRB"},{"artist":"Trisha Yearwood","id":"2ulBBx6YQ3qY3ci34RadtN","large_image":"https://i.scdn.co/image/ab67616d0000b273bf4093011674adea23a1354b","med_image":"https://i.scdn.co/image/ab67616d00001e02bf4093011674adea23a1354b","small_image":"https://i.scdn.co/image/ab67616d00004851bf4093011674adea23a1354b","song_name":"She's In Love With The Boy - Single Version","uri":"spotify:track:2ulBBx6YQ3qY3ci34RadtN"},{"artist":"Russell Dickerson","id":"0vBMmF78QgtWY6dDNDPhbv","large_image":"https://i.scdn.co/image/ab67616d0000b273c1dfda1b94b3db5bcdeabf0d","med_image":"https://i.scdn.co/image/ab67616d00001e02c1dfda1b94b3db5bcdeabf0d","small_image":"https://i.scdn.co/image/ab67616d00004851c1dfda1b94b3db5bcdeabf0d","song_name":"Yours - Wedding Edition","uri":"spotify:track:0vBMmF78QgtWY6dDNDPhbv"},{"artist":"Dixie Chicks","id":"6cjwec9ii5uLK7CDfPBYt1","large_image":"https://i.scdn.co/image/ab67616d0000b2737c2a9c9ce2e9016223cdb74a","med_image":"https://i.scdn.co/image/ab67616d00001e027c2a9c9ce2e9016223cdb74a","small_image":"https://i.scdn.co/image/ab67616d000048517c2a9c9ce2e9016223cdb74a","song_name":"Wide Open Spaces","uri":"spotify:track:6cjwec9ii5uLK7CDfPBYt1"},{"artist":"Jerrod Niemann","id":"1HYKv0B6bYycqpxWHydKy9","large_image":"https://i.scdn.co/image/ab67616d0000b273c4391dcea9cbe6596f316e3c","med_image":"https://i.scdn.co/image/ab67616d00001e02c4391dcea9cbe6596f316e3c","small_image":"https://i.scdn.co/image/ab67616d00004851c4391dcea9cbe6596f316e3c","song_name":"One More Drinkin' Song","uri":"spotify:track:1HYKv0B6bYycqpxWHydKy9"}]
+]
+~~~
+
+
+**Song search with images** - Takes a query and returns related songs along with pics. 
+
+~~~
+https://spotify-api-helper.herokuapp.com/songs_with_pic/<key>/<query>
+~~~
+
+**Returns**
+~~~
+[
+{"artist":"Florida Georgia Line","id":"498ZVInMGDkmmNVpSWqHiZ","large_image":"https://i.scdn.co/image/205ec78bebfdc739bb3bb91076306e24f03c7d2c","med_image":"https://i.scdn.co/image/9ce932460729587fd8dccdac9214d741e127e162","small_image":"https://i.scdn.co/image/edc3a84866acc208acb5dbca21f05dda9a7eae99","song_name":"May We All","uri":"spotify:track:498ZVInMGDkmmNVpSWqHiZ"},
+{"artist":"Florida Georgia Line","id":"58zWN3BNikOH7zVP6QGBZp","large_image":"https://i.scdn.co/image/3a521ef461bba97d0d4e0a748bbcbc5c9e70b81b","med_image":"https://i.scdn.co/image/7f8fcf96edf847f839ad4a825c304e6e744fe737","small_image":"https://i.scdn.co/image/e6906b22f466cba7cc4544b5e89516fd511770c1","song_name":"May We All - Acoustic","uri":"spotify:track:58zWN3BNikOH7zVP6QGBZp"},
+{"artist":"Florida Georgia Line","id":"6RHDliBPKS2TShFp7UIHF0","large_image":"https://i.scdn.co/image/66594e26e0a43b69b8ab6b78df80b0b3c831c5fa","med_image":"https://i.scdn.co/image/39260082f7ac1d7a79f28f0aa2bb5f11bc8279a2","small_image":"https://i.scdn.co/image/5085916175ee37e0582c55a28dfec8759d2bd7b4","song_name":"May We All","uri":"spotify:track:6RHDliBPKS2TShFp7UIHF0"},
+{"artist":"Florida Georgia Line","id":"6GIei0QWZjbrNWNwtTpiQL","large_image":"https://i.scdn.co/image/66594e26e0a43b69b8ab6b78df80b0b3c831c5fa","med_image":"https://i.scdn.co/image/39260082f7ac1d7a79f28f0aa2bb5f11bc8279a2","small_image":"https://i.scdn.co/image/5085916175ee37e0582c55a28dfec8759d2bd7b4","song_name":"May We All - Commentary","uri":"spotify:track:6GIei0QWZjbrNWNwtTpiQL"},
+{"artist":"Crooks UK","id":"37KWDhJ3fyBAFVcC0Hutan","large_image":"https://i.scdn.co/image/ab67616d0000b2736dd78f14c86f1d2d183db98c","med_image":"https://i.scdn.co/image/ab67616d00001e026dd78f14c86f1d2d183db98c","small_image":"https://i.scdn.co/image/ab67616d000048516dd78f14c86f1d2d183db98c","song_name":"May Be","uri":"spotify:track:37KWDhJ3fyBAFVcC0Hutan"},
+{"artist":"Florida Georgia Line","id":"0ONccS8Kchy2jgbhF5lg1i","large_image":"https://i.scdn.co/image/ab67616d0000b27385bdb09f395d298a77c2636b","med_image":"https://i.scdn.co/image/ab67616d00001e0285bdb09f395d298a77c2636b","small_image":"https://i.scdn.co/image/ab67616d0000485185bdb09f395d298a77c2636b","song_name":"May We All","uri":"spotify:track:0ONccS8Kchy2jgbhF5lg1i"},
+{"artist":"Roky Erickson","id":"6VbF4Hm5LTYgKH9R7ss2zZ","large_image":"https://i.scdn.co/image/ab67616d0000b273790213e5c993dc263f735e69","med_image":"https://i.scdn.co/image/ab67616d00001e02790213e5c993dc263f735e69","small_image":"https://i.scdn.co/image/ab67616d00004851790213e5c993dc263f735e69","song_name":"We Are Never Talking","uri":"spotify:track:6VbF4Hm5LTYgKH9R7ss2zZ"}
+]
+~~~
+
