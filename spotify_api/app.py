@@ -124,6 +124,18 @@ def avg_mood(key):
 
         return jsonify(feats)
 
+# http://127.0.0.1:5000/playlist_mood_recs/0?acousticness=2&danceability=1.33&duration_ms=2&energy=.9&instrumentalness=.6&key=.9&liveness=0.14&loudness=.7&mode=1&speechiness=.09&tempo=1.3&time_signature=0.6&valence=.1&playlist=['1h2vCbRUWpWnYEgb2hfQbi', '498ZVInMGDkmmNVpSWqHiZ', '3bidbhpOYeV4knp8AIu8Xn', '7B1QliUMZv7gSTUGAfMRRD', '2qYsSHsYkihWx043HVJQRV', '7x9Am1UW3C5yCZLSysEWxX', '7lWF2mVr1KKbVnaT2nSlPo', '4ycLiPVzE5KamivXrAzGFG', '05qCCJQJiOwvPQBb7akf1R', '1ONoPkp5XIuw3tZ1GzrNKZ', '3ZjnFYlal0fXN6t61wdxhl']
+# Getting recommendations based on both mood and an input playlist
+@app.route('/playlist_mood_recs/<key>')
+def playlist_mood_recs(key):
+    if key == API_KEY:            
+        value = request.args.get('playlist')
+        playlist = playlist_str_to_ls(value)
+
+        recs = mood_playlist_recs(playlist)
+
+        return jsonify(recs)
+
 
 # http://127.0.0.1:5000/playlist_recs/0?playlist=['1h2vCbRUWpWnYEgb2hfQbi', '498ZVInMGDkmmNVpSWqHiZ', '3bidbhpOYeV4knp8AIu8Xn', '7B1QliUMZv7gSTUGAfMRRD', '2qYsSHsYkihWx043HVJQRV', '7x9Am1UW3C5yCZLSysEWxX', '7lWF2mVr1KKbVnaT2nSlPo', '4ycLiPVzE5KamivXrAzGFG', '05qCCJQJiOwvPQBb7akf1R', '1ONoPkp5XIuw3tZ1GzrNKZ', '3ZjnFYlal0fXN6t61wdxhl']
 # http://127.0.0.1:5000/playlist_recs/0?playlist=['1h2vCbRUWpWnYEgb2hfQbi', '498ZVInMGDkmmNVpSWqHiZ', '3bidbhpOYeV4knp8AIu8Xn', '7B1QliUMZv7gSTUGAfMRRD', '2qYsSHsYkihWx043HVJQRV']

@@ -83,7 +83,7 @@ def audio_features_to_df(feats_list, has_id=True):
 
     df = pd.DataFrame(columns=columns)
     for feat in feats_list:
-        feat_dict = audio_features_to_dict(feat)
+        feat_dict = audio_features_to_dict(feat, get_id=has_id)
         df = df.append(feat_dict, ignore_index=True)
     return df
 
@@ -208,8 +208,8 @@ def mood():
 
 # Sort a list of songs by how similar they are to given mood
 # then return top 5
-def mood_recs(song_list, k=5):
-    scaled_feats = audio_features_to_df(mood(), has_id=False)
+def mood_recs(song_list, mood_feats, k=5):
+    scaled_feats = audio_features_to_df([mood_feats], has_id=False)
     df = get_all_features(song_list)
 
     df_scaled = spot_scaler.transform(df.drop(['id'], axis=1))
@@ -225,9 +225,10 @@ def mood_recs(song_list, k=5):
 # top 5, which is then returned.
 # http://127.0.0.1:5000/mood_test/0/5ImhD7dhkGVPa0oLiy6R5W?acousticness=2&danceability=1.33&duration_ms=2&energy=.9&instrumentalness=.6&key=.9&liveness=0.14&loudness=.7&mode=1&speechiness=.09&tempo=1.3&time_signature=0.6&valence=.1
 def mood_playlist_recs(playlist, k=5):
-    top_5_playlist = mood_recs(playlist, k=k)
+    mood_feats = mood()
+    top_5_playlist = mood_recs(playlist, mood_feats, k=k)
     rec_100 = get_100(list(top_5_playlist.id.values))
-    top_5 = mood_recs(rec_100, k=k)
+    top_5 = mood_recs(rec_100, mood_feats, k=k)
 
     return songs_data(top_5)
 
