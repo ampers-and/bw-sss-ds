@@ -27,6 +27,16 @@ def song_search(key, value):
         songs = get_songs(value)
         return jsonify(songs)
 
+@app.route('/auto_search/<key>/<value>')
+def auto_search(key, value):
+    if key == API_KEY:
+        songs = get_songs(value, limit=1)
+        songs = songs[0]
+        id = songs['id']
+        recs = rec_data([id])
+        recs.insert(0,songs)
+        return jsonify(recs)
+
 
 @app.route('/features/<key>/<value>')
 def song_features(key, value):

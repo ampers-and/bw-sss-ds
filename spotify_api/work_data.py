@@ -236,7 +236,7 @@ def default_mood(playlist):
 
     mean_feats = np.mean(df_scaled, axis=0)
 
-    return construct_mood(mean_feats) 
+    return construct_mood(mean_feats)
 
 
 # Convert a playlist, represented as a string, into a list.
