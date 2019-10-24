@@ -111,7 +111,7 @@ def graph_data(key, value):
         return jsonify(graph_dict)
 
 
-# http://127.0.0.1:5000/avg_mood/0?playlist=['1h2vCbRUWpWnYEgb2hfQbi','498ZVInMGDkmmNVpSWqHiZ','3bidbhpOYeV4knp8AIu8Xn','7B1QliUMZv7gSTUGAfMRRD','2qYsSHsYkihWx043HVJQRV']
+# http://127.0.0.1:5000/avg_mood/0?playlist=['1h2vCbRUWpWnYEgb2hfQbi', '498ZVInMGDkmmNVpSWqHiZ', '3bidbhpOYeV4knp8AIu8Xn', '7B1QliUMZv7gSTUGAfMRRD', '2qYsSHsYkihWx043HVJQRV']
 # Get default mood from playlist
 @app.route('/avg_mood/<key>', methods=['GET'])
 def avg_mood(key):
@@ -125,9 +125,9 @@ def avg_mood(key):
         return jsonify(feats)
 
 
-# http://127.0.0.1:5000/playlist_recs/0?playlist=['1h2vCbRUWpWnYEgb2hfQbi','498ZVInMGDkmmNVpSWqHiZ','3bidbhpOYeV4knp8AIu8Xn','7B1QliUMZv7gSTUGAfMRRD','2qYsSHsYkihWx043HVJQRV','7x9Am1UW3C5yCZLSysEWxX','7lWF2mVr1KKbVnaT2nSlPo','4ycLiPVzE5KamivXrAzGFG','05qCCJQJiOwvPQBb7akf1R','1ONoPkp5XIuw3tZ1GzrNKZ','3ZjnFYlal0fXN6t61wdxhl']
-# http://127.0.0.1:5000/playlist_recs/0?playlist=['1h2vCbRUWpWnYEgb2hfQbi','498ZVInMGDkmmNVpSWqHiZ','3bidbhpOYeV4knp8AIu8Xn','7B1QliUMZv7gSTUGAfMRRD','2qYsSHsYkihWx043HVJQRV']
-# http://127.0.0.1:5000/playlist_recs/0?playlist=['1h2vCbRUWpWnYEgb2hfQbi','498ZVInMGDkmmNVpSWqHiZ','3bidbhpOYeV4knp8AIu8Xn']
+# http://127.0.0.1:5000/playlist_recs/0?playlist=['1h2vCbRUWpWnYEgb2hfQbi', '498ZVInMGDkmmNVpSWqHiZ', '3bidbhpOYeV4knp8AIu8Xn', '7B1QliUMZv7gSTUGAfMRRD', '2qYsSHsYkihWx043HVJQRV', '7x9Am1UW3C5yCZLSysEWxX', '7lWF2mVr1KKbVnaT2nSlPo', '4ycLiPVzE5KamivXrAzGFG', '05qCCJQJiOwvPQBb7akf1R', '1ONoPkp5XIuw3tZ1GzrNKZ', '3ZjnFYlal0fXN6t61wdxhl']
+# http://127.0.0.1:5000/playlist_recs/0?playlist=['1h2vCbRUWpWnYEgb2hfQbi', '498ZVInMGDkmmNVpSWqHiZ', '3bidbhpOYeV4knp8AIu8Xn', '7B1QliUMZv7gSTUGAfMRRD', '2qYsSHsYkihWx043HVJQRV']
+# http://127.0.0.1:5000/playlist_recs/0?playlist=['1h2vCbRUWpWnYEgb2hfQbi', '498ZVInMGDkmmNVpSWqHiZ', '3bidbhpOYeV4knp8AIu8Xn']
 # Getting recomendations from playlist alone
 @app.route('/playlist_recs/<key>')
 def playlist_recs(key):

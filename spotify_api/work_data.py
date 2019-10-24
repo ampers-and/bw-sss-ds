@@ -244,4 +244,4 @@ def default_mood(playlist):
 
 # Convert a playlist, represented as a string, into a list.
 def playlist_str_to_ls(playlist_str):
-    return playlist_str.strip('[]').replace("'", '').split(',')
+    return playlist_str.strip('[]').replace("'", '').split(', ')
