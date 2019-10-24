@@ -156,6 +156,22 @@ def get_songs(song, limit=7):
                        'uri': i['uri']})
     return tracks
 
+def get_songs_with_pic(song, limit=7):
+    songs = spotify.search(song,
+                           limit=limit,
+                           offset=0,
+                           type='track',
+                           market='US')
+    tracks = []
+    for i in songs['tracks']['items']:
+        tracks.append({'large_image': i['album']['images'][0]['url'],
+                       'med_image': i['album']['images'][1]['url'],
+                       'small_image': i['album']['images'][2]['url'],
+                       'song_name': i['name'],
+                       'artist': i['artists'][0]['name'],
+                       'id': i['id'],
+                       'uri': i['uri']})
+    return tracks
 
 def construct_mood(feats):
     feat_dict = {'acousticness': feats[0],

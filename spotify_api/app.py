@@ -27,6 +27,12 @@ def song_search(key, value):
         songs = get_songs(value)
         return jsonify(songs)
 
+@app.route('/songs_with_pic/<key>/<value>')
+def song_search_pic(key, value):
+    if key == API_KEY:
+        songs = get_songs_with_pic(value)
+        return jsonify(songs)
+
 @app.route('/auto_search/<key>/<value>')
 def auto_search(key, value):
     if key == API_KEY:
@@ -131,7 +137,7 @@ def playlist_mood_recs(key):
     if key == API_KEY:
         value = request.args.get('playlist')
         playlist = playlist_str_to_ls(value)
-
+        mood_dict = mood()
         recs = mood_playlist_recs(playlist)
         li = [i['id'] for i in recs]
         features = get_all_features(li)
@@ -148,7 +154,7 @@ def playlist_mood_recs(key):
                             spot_scaler.transform([feature_vec])[0])
 
         graph_data = radar_chart.render_data_uri()
-        graph_dict = [{'graph_uri':graph_data},recs]
+        graph_dict = [{'graph_uri':graph_data},mood_dict, recs]
 
         return jsonify(graph_dict)
 
