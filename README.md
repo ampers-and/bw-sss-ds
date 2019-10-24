@@ -88,5 +88,41 @@ https://spotify-api-helper.herokuapp.com/graph_data/<api_key>/<track_id>
 ]
 ~~~
 
-**This is what the rended URI of the chart looks like.**
+**This is what the rendered URI of the chart looks like.**
 ![alt text](https://github.com/bw-spotify-oct/ds/blob/master/img/chart.png "Logo Title Text 1")
+
+**Search Query with results** - Takes in a query and returns song search plus five recs. 
+
+~~~
+https://spotify-api-helper.herokuapp.com/auto_search/<api_key>/<query>
+~~~
+
+**Returns**
+~~~
+[
+{"artist":"Florida Georgia Line","id":"498ZVInMGDkmmNVpSWqHiZ","song_name":"May We All","uri":"spotify:track:498ZVInMGDkmmNVpSWqHiZ"},
+{"artist":"Maren Morris","id":"4H0vNUFcHPz5lytcLjwqkr","large_image":"https://i.scdn.co/image/ab67616d0000b2738bd4a20032a613d28e909109","med_image":"https://i.scdn.co/image/ab67616d00001e028bd4a20032a613d28e909109","small_image":"https://i.scdn.co/image/ab67616d000048518bd4a20032a613d28e909109","song_name":"Rich","uri":"spotify:track:4H0vNUFcHPz5lytcLjwqkr"},
+{"artist":"Granger Smith","id":"11fWR3u9wjDMW4oVDbUbyT","large_image":"https://i.scdn.co/image/ab67616d0000b2737646f22eba3599fdeb6b7911","med_image":"https://i.scdn.co/image/ab67616d00001e027646f22eba3599fdeb6b7911","small_image":"https://i.scdn.co/image/ab67616d000048517646f22eba3599fdeb6b7911","song_name":"Happens Like That","uri":"spotify:track:11fWR3u9wjDMW4oVDbUbyT"},
+{"artist":"Cole Swindell","id":"3y1t2sEahs8idFz2tiYNPO","large_image":"https://i.scdn.co/image/ab67616d0000b2734f239e3ce20b8e350244e84a","med_image":"https://i.scdn.co/image/ab67616d00001e024f239e3ce20b8e350244e84a","small_image":"https://i.scdn.co/image/ab67616d000048514f239e3ce20b8e350244e84a","song_name":"Let Me See Ya Girl","uri":"spotify:track:3y1t2sEahs8idFz2tiYNPO"},
+{"artist":"Jon Pardi","id":"0bPnT6i9H1p8Vd85GS6Z7I","large_image":"https://i.scdn.co/image/ab67616d0000b2730504a96f206bc32ebe198b83","med_image":"https://i.scdn.co/image/ab67616d00001e020504a96f206bc32ebe198b83","small_image":"https://i.scdn.co/image/ab67616d000048510504a96f206bc32ebe198b83","song_name":"Night Shift","uri":"spotify:track:0bPnT6i9H1p8Vd85GS6Z7I"},
+{"artist":"Frankie Ballard","id":"61jWRBNxdM3sO5oKLwZV9y","large_image":"https://i.scdn.co/image/ab67616d0000b27351f2b6933052de5d3c16fc7a","med_image":"https://i.scdn.co/image/ab67616d00001e0251f2b6933052de5d3c16fc7a","small_image":"https://i.scdn.co/image/ab67616d0000485151f2b6933052de5d3c16fc7a","song_name":"You'll Accomp'ny Me","uri":"spotify:track:61jWRBNxdM3sO5oKLwZV9y"}
+]
+~~~
+
+**Returns Five Recs** - Takes ID and returns five recs. 
+
+~~~
+https://spotify-api-helper.herokuapp.com/recs/<api_key>/<track_id>
+~~~
+
+**Returns**
+~~~
+[
+{"artist":"Florida Georgia Line","id":"498ZVInMGDkmmNVpSWqHiZ","song_name":"May We All","uri":"spotify:track:498ZVInMGDkmmNVpSWqHiZ"},
+{"artist":"Maren Morris","id":"4H0vNUFcHPz5lytcLjwqkr","large_image":"https://i.scdn.co/image/ab67616d0000b2738bd4a20032a613d28e909109","med_image":"https://i.scdn.co/image/ab67616d00001e028bd4a20032a613d28e909109","small_image":"https://i.scdn.co/image/ab67616d000048518bd4a20032a613d28e909109","song_name":"Rich","uri":"spotify:track:4H0vNUFcHPz5lytcLjwqkr"},
+{"artist":"Granger Smith","id":"11fWR3u9wjDMW4oVDbUbyT","large_image":"https://i.scdn.co/image/ab67616d0000b2737646f22eba3599fdeb6b7911","med_image":"https://i.scdn.co/image/ab67616d00001e027646f22eba3599fdeb6b7911","small_image":"https://i.scdn.co/image/ab67616d000048517646f22eba3599fdeb6b7911","song_name":"Happens Like That","uri":"spotify:track:11fWR3u9wjDMW4oVDbUbyT"},
+{"artist":"Cole Swindell","id":"3y1t2sEahs8idFz2tiYNPO","large_image":"https://i.scdn.co/image/ab67616d0000b2734f239e3ce20b8e350244e84a","med_image":"https://i.scdn.co/image/ab67616d00001e024f239e3ce20b8e350244e84a","small_image":"https://i.scdn.co/image/ab67616d000048514f239e3ce20b8e350244e84a","song_name":"Let Me See Ya Girl","uri":"spotify:track:3y1t2sEahs8idFz2tiYNPO"},
+{"artist":"Jon Pardi","id":"0bPnT6i9H1p8Vd85GS6Z7I","large_image":"https://i.scdn.co/image/ab67616d0000b2730504a96f206bc32ebe198b83","med_image":"https://i.scdn.co/image/ab67616d00001e020504a96f206bc32ebe198b83","small_image":"https://i.scdn.co/image/ab67616d000048510504a96f206bc32ebe198b83","song_name":"Night Shift","uri":"spotify:track:0bPnT6i9H1p8Vd85GS6Z7I"},
+{"artist":"Frankie Ballard","id":"61jWRBNxdM3sO5oKLwZV9y","large_image":"https://i.scdn.co/image/ab67616d0000b27351f2b6933052de5d3c16fc7a","med_image":"https://i.scdn.co/image/ab67616d00001e0251f2b6933052de5d3c16fc7a","small_image":"https://i.scdn.co/image/ab67616d0000485151f2b6933052de5d3c16fc7a","song_name":"You'll Accomp'ny Me","uri":"spotify:track:61jWRBNxdM3sO5oKLwZV9y"}
+]
+~~~
