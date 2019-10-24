@@ -42,7 +42,7 @@ def get_100(target_ids):
 
 
 # audio_features_to_dict : Dict (audio_features) -> Dict (mood)
-def audio_features_to_dict(feats, get_id=True):
+def audio_features_to_dict(feats, has_id=True):
     feat_dict = {'acousticness': feats['acousticness'],
                  'danceability': feats['danceability'],
                  'duration_ms': feats['duration_ms'],
@@ -56,7 +56,7 @@ def audio_features_to_dict(feats, get_id=True):
                  'tempo': feats['tempo'],
                  'time_signature': feats['time_signature'],
                  'valence': feats['valence']}
-    if get_id:
+    if has_id:
        feat_dict['id'] = feats['id']
     return feat_dict
 
@@ -88,7 +88,7 @@ def audio_features_to_df(feats_list, has_id=True):
 
     df = pd.DataFrame(columns=columns)
     for feat in feats_list:
-        feat_dict = audio_features_to_dict(feat, get_id=has_id)
+        feat_dict = audio_features_to_dict(feat, has_id=has_id)
         df = df.append(feat_dict, ignore_index=True)
     return df
 
