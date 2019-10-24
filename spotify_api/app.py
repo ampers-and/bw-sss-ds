@@ -126,8 +126,25 @@ def playlist_recs(key):
         playlist = playlist_str_to_ls(value)
 
         recs = rec_data(playlist)
+        li = [i['id'] for i in recs]
+        features = get_all_features(li)
+        feats = default_mood(playlist)
+        feat_dict = songs_data(features)
 
-        return jsonify(recs)
+        custom_style = fixed_style
+        radar_chart = pygal.Radar(style=custom_style)
+
+
+        radar_chart.x_labels = list(features.drop('id', axis=1).keys())
+
+        for id, feature_vec in zip(features.id, features.drop('id', axis=1).values):
+            radar_chart.add(spotify.track(id)['name'],
+                            spot_scaler.transform([feature_vec])[0])
+
+        graph_data = radar_chart.render_data_uri()
+        graph_dict = [{'graph_uri':graph_data},feats,recs]
+
+        return jsonify(graph_dict)
 
 
 @app.route('/mood/<key>', methods=['GET'])
