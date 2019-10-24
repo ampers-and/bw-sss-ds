@@ -23,6 +23,7 @@ spot_scaler = load('SpotScaler.joblib')
 
 
 # Given a list of songs, select, at most, five of them at random.
+# random_song_selector : Vect _ n -> Vect _ (min 5 n) 
 def random_song_selector(playlist):
     if len(playlist) < 5:
         return playlist
@@ -31,6 +32,7 @@ def random_song_selector(playlist):
 
 
 # get the ids of 100 recommendations from spotify
+# get_100 : {n <= 5} -> Vect (song_id) n -> Vect (song_id) 100
 def get_100(target_ids):
     playlist = random_song_selector(target_ids)
 
@@ -39,6 +41,7 @@ def get_100(target_ids):
     return ids
 
 
+# audio_features_to_dict : Dict (audio_features) -> Dict (mood)
 def audio_features_to_dict(feats, get_id=True):
     feat_dict = {'acousticness': feats['acousticness'],
                  'danceability': feats['danceability'],
@@ -58,12 +61,14 @@ def audio_features_to_dict(feats, get_id=True):
     return feat_dict
 
 
+# get_features : Vect (song_id) -> Dict (mood)
 def get_features(target_id):
     res = spotify.audio_features(tracks=target_id)[0]
 
     return audio_features_to_dict(res)
 
 
+# audio_features_to_df : Vect (Dict (mood)) -> DataFrame (mood)
 def audio_features_to_df(feats_list, has_id=True):
     columns = ['acousticness',
                'danceability',
@@ -87,6 +92,8 @@ def audio_features_to_df(feats_list, has_id=True):
         df = df.append(feat_dict, ignore_index=True)
     return df
 
+
+# get_all_features : Vect (song_id) -> DataFrame (mood)
 def get_all_features(list_id):
     feats_list = spotify.audio_features(tracks=list_id)
 
@@ -99,6 +106,7 @@ def get_all_features(list_id):
 # recommendations and a feature vector
 # NOTE: The mean of the distance is NOT the same
 #       as the distance from the mean
+# feat_recs : DataFrame (mood) -> Vect (song_id) -> DataFrame (mood)
 def feat_recs(target_feats, top_100, k=5):
     df = get_all_features(top_100)
 
@@ -114,11 +122,13 @@ def feat_recs(target_feats, top_100, k=5):
 
 # Take the mean of the distances between the list of
 # recommendations and the input options.
+# top_recs : Vect (song_id) -> DataFrame (mood)
 def top_recs(target_id, k=5):
     return feat_recs(get_all_features(target_id), get_100(target_id), k=k)
 
 
 # Get an array of data pertaining to a list of recommendations
+# songs_data : DataFrame (mood w/ id) -> Vect (Dict (song_data))
 def songs_data(res_df):
     vals = res_df.id.values
     song_info = []
@@ -126,6 +136,8 @@ def songs_data(res_df):
         song_info.append(songs_data_single(i))
     return song_info
 
+
+# songs_data_single : String (song_id) -> Dict (song_data)
 def songs_data_single(id):
     tracks = spotify.track(id)
     t = {'large_image': tracks['album']['images'][0]['url'],
@@ -137,11 +149,14 @@ def songs_data_single(id):
          'uri': tracks['uri']}
     return t
 
+
 # Get an array of data pertaining to a list of recommendations based on target
+# rec_data : Vect (song_id) -> Vect (Dict (song_data))
 def rec_data(target_id):
     return songs_data(top_recs(target_id))
 
 
+# get_songs : String -> Vect (Dict (song_data))
 def get_songs(song, limit=7):
     songs = spotify.search(song,
                            limit=limit,
@@ -157,6 +172,7 @@ def get_songs(song, limit=7):
     return tracks
 
 
+# construct_mood : Vect Floats -> Dict (mood)
 def construct_mood(feats):
     feat_dict = {'acousticness': feats[0],
                  'danceability': feats[1],
@@ -176,6 +192,7 @@ def construct_mood(feats):
 
 # For testing
 # https://spotify-api-helper.herokuapp.com/mood/DReaI4d55IIaiD6P9?acousticness=2&danceability=3&duration_ms=2&energy=9&instrumentalness=6&key=9&liveness=0.14&loudness=7&mode=1&speechiness=.09&tempo=3&time_signature=0.6&valence=.1
+# mood : State (mood) (Dict (mood))
 def mood():
     acousticness = float(request.args.get('acousticness'))
     danceability = float(request.args.get('danceability'))
@@ -208,6 +225,7 @@ def mood():
 
 # Sort a list of songs by how similar they are to given mood
 # then return top 5
+# mood_recs : Vect (song_id) -> Dict (mood) -> DataFrame (mood)
 def mood_recs(song_list, mood_feats, k=5):
     scaled_feats = audio_features_to_df([mood_feats], has_id=False)
     df = get_all_features(song_list)
@@ -224,6 +242,7 @@ def mood_recs(song_list, mood_feats, k=5):
 # 100 recommendations. Sort these recommendations and get another
 # top 5, which is then returned.
 # http://127.0.0.1:5000/mood_test/0/5ImhD7dhkGVPa0oLiy6R5W?acousticness=2&danceability=1.33&duration_ms=2&energy=.9&instrumentalness=.6&key=.9&liveness=0.14&loudness=.7&mode=1&speechiness=.09&tempo=1.3&time_signature=0.6&valence=.1
+# mood_playlist_recs : Vect (song_id) -> State (mood) (Vect (Dict (song_data)))
 def mood_playlist_recs(playlist, k=5):
     mood_feats = mood()
     top_5_playlist = mood_recs(playlist, mood_feats, k=k)
@@ -234,6 +253,7 @@ def mood_playlist_recs(playlist, k=5):
 
 
 # Given a playlist, get a default mood, the mean
+# default_mood : Vect (song_id) -> Dict (mood)
 def default_mood(playlist):
     df = get_all_features(playlist)
     df_scaled = spot_scaler.transform(df.drop(['id'], axis=1))
@@ -244,5 +264,6 @@ def default_mood(playlist):
 
 
 # Convert a playlist, represented as a string, into a list.
+# playlist_str_to_ls : String -> Vect String
 def playlist_str_to_ls(playlist_str):
     return playlist_str.strip('[]').replace("'", '').replace(' ', '').split(',')
