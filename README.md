@@ -54,9 +54,9 @@ The Spotify data for our neural network was wrangled as follows:
 Our neural network was built as follows:
 - 'Sequential' model, from tensorflow.keras.models library
 - 3 Dense layers:
--- Layer 1: 12 nodes, 12 input dimensions (to match number of features fed to model), rectified linear unit activation function
--- Layer 2: 512 nodes, sigmoid activation function
--- Layer 3: 400 output dimensions (to match 400 KMeans clusters), softmax activation function.  The softmax activation function in the output layer generates an array of probabilities for each song.  There are 400 probabilities in the array, which represent the likelihood a song belongs one of the 400 KMeans clusters.
+- Layer 1: 12 nodes, 12 input dimensions (to match number of features fed to model), rectified linear unit activation function
+- Layer 2: 512 nodes, sigmoid activation function
+- Layer 3: 400 output dimensions (to match 400 KMeans clusters), softmax activation function. The softmax activation function in the output layer generates an array of probabilities for each song.  There are 400 probabilities in the array, which represent the likelihood a song belongs one of the 400 KMeans clusters.
 
 Successes:
 - Used RESTful API (described below) to pull song features for Elton John's 'Tiny Dancer', a piano-based rock song, and The Game's 'How We Do (featuring 50 Cent)', an uptempo string-based rap song.  
