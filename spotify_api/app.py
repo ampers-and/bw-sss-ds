@@ -165,6 +165,33 @@ def playlist_mood_recs(key):
         return jsonify(graph_dict)
 
 
+@app.route('/playlist_mood_graph/<key>')
+def playlist_mood_graph(key):
+    if key == API_KEY:
+        value = request.args.get('playlist')
+        playlist = playlist_str_to_ls(value)
+        mood_dict = mood()
+        recs = mood_playlist_recs(playlist)
+        li = [i['id'] for i in recs]
+        features = get_all_features(li)
+        spotify = auth()
+
+        custom_style = fixed_style
+        radar_chart = pygal.Radar(style=custom_style)
+
+
+        radar_chart.x_labels = list(features.drop('id', axis=1).keys())
+
+        for id, feature_vec in zip(features.id, features.drop('id', axis=1).values):
+            radar_chart.add(spotify.track(id)['name'],
+                            spot_scaler.transform([feature_vec])[0])
+
+        graph_data = radar_chart.render_data_uri()
+
+        return render_template('radar.html',
+                                graph_data=graph_data,
+                                title='Song Feature Graph')
+
 # http://127.0.0.1:5000/playlist_recs/0?playlist=['1h2vCbRUWpWnYEgb2hfQbi', '498ZVInMGDkmmNVpSWqHiZ', '3bidbhpOYeV4knp8AIu8Xn', '7B1QliUMZv7gSTUGAfMRRD', '2qYsSHsYkihWx043HVJQRV', '7x9Am1UW3C5yCZLSysEWxX', '7lWF2mVr1KKbVnaT2nSlPo', '4ycLiPVzE5KamivXrAzGFG', '05qCCJQJiOwvPQBb7akf1R', '1ONoPkp5XIuw3tZ1GzrNKZ', '3ZjnFYlal0fXN6t61wdxhl']
 # http://127.0.0.1:5000/playlist_recs/0?playlist=['1h2vCbRUWpWnYEgb2hfQbi', '498ZVInMGDkmmNVpSWqHiZ', '3bidbhpOYeV4knp8AIu8Xn', '7B1QliUMZv7gSTUGAfMRRD', '2qYsSHsYkihWx043HVJQRV']
 # http://127.0.0.1:5000/playlist_recs/0?playlist=['1h2vCbRUWpWnYEgb2hfQbi', '498ZVInMGDkmmNVpSWqHiZ', '3bidbhpOYeV4knp8AIu8Xn']
