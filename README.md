@@ -40,7 +40,37 @@ For the purpose of creating a model, we dropped “artist_name”, “track_name
 
 ### Creating a Neural Network 
 
-Ian can fill this section out 
+The neural network built for the Spotify Song Suggester worked, but unfortunately it was not scalable for the application's timeline.
+
+It trained on the Kaggle-provided Spotify datasets that were pre-assigned/grouped into 400 clusters using sklearn.cluster's 'KMeans' model. 
+
+In it's most efficient iteration, the neural network achieved a 96% accuracy/0.1038 loss predicting the KMeans cluster of each song in the training dataset. Accuracy and loss on the test dataset were 94.57% and 0.1667, respectively.
+
+The Spotify data for our neural network was wrangled as follows:
+- **speechiness** - limited dataset to tracks with ('speechiness' < 0.70).  This removed 1,000 rows from the dataset, and was done to reduce the impact of spoken word/introduction songs on the model.
+- **popularity** - removed 'popularity' column from dataset entirely.  Popularity column is not a good feature to use for the neural network because it is constantly fluctuating.  For example, the popularity of the same songs changed in the time the 'Nov2018' and 'April2019' datasets were created.
+- **duration_ms** - removed 'duration_ms' column from dataset entirely. Song length is a poor predictor of song similarity.  For example, we wouldn't want our neural network to think a rap song and an orchestral song belong in the same cluster because they are both 3 minutes, 30 seconds long.
+
+Our neural network was built as follows:
+- 'Sequential' model, from tensorflow.keras.models library
+- 3 Dense layers:
+-- Layer 1: 12 nodes, 12 input dimensions (to match number of features fed to model), rectified linear unit activation function
+-- Layer 2: 512 nodes, sigmoid activation function
+-- Layer 3: 400 output dimensions (to match 400 KMeans clusters), softmax activation function.  The softmax activation function in the output layer generates an array of probabilities for each song.  There are 400 probabilities in the array, which represent the likelihood a song belongs one of the 400 KMeans clusters.
+
+Successes:
+- Used RESTful API (described below) to pull song features for Elton John's 'Tiny Dancer', a piano-based rock song, and The Game's 'How We Do (featuring 50 Cent)', an uptempo string-based rap song.  
+- Features were manually wrangled and fed to model, assigning both songs to a KMeans cluster
+- KMeans cluster for 'Tiny Dancer' contained a lot of similar piano-based songs from the dataset!
+- KMeans cluster for 'How We Do' contained a lot of similar rap songs from the dataset!
+
+Failures:
+- Input data had to be manually wrangled for input to model
+- Model trained on only 400 KMeans clusters is not practical to scale to whole Spotify song library
+- Dataset of 100,000 is not large enough to accurately predict similarities for a 30 million song library
+- No way to scale model to entire Spotify library; could not assign KMeans cluster to every song, which is the only way the model could practically service our application
+- model was not perfect; predicted clusters for both 'Tiny Dancer' and 'How We Do' contained unrelated songs
+
 
 ### RESTful API with Flask 
 
