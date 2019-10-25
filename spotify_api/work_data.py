@@ -11,19 +11,30 @@ from joblib import load
 from flask import Flask, render_template, request
 import random
 
-CLIENT_ID = config("CLIENT_ID")
-CLIENT_SECRET = config("CLIENT_SECRET")
-credentials = oauth2.SpotifyClientCredentials(
+#CLIENT_ID = config("CLIENT_ID")
+#CLIENT_SECRET = config("CLIENT_SECRET")
+#credentials = oauth2.SpotifyClientCredentials(
+                #    client_id=CLIENT_ID,
+                #    client_secret=CLIENT_SECRET)
+#token = credentials.get_access_token()
+
+#spotify = spotipy.Spotify(auth=token)
+spot_scaler = load('SpotScaler.joblib')
+
+def auth():
+    CLIENT_ID = config("CLIENT_ID")
+    CLIENT_SECRET = config("CLIENT_SECRET")
+    credentials = oauth2.SpotifyClientCredentials(
                     client_id=CLIENT_ID,
                     client_secret=CLIENT_SECRET)
-token = credentials.get_access_token()
+    token = credentials.get_access_token()
+    spotify = spotipy.Spotify(auth=token)
+    return spotify
 
-spotify = spotipy.Spotify(auth=token)
-spot_scaler = load('SpotScaler.joblib')
 
 
 # Given a list of songs, select, at most, five of them at random.
-# random_song_selector : Vect _ n -> Vect _ (min 5 n) 
+# random_song_selector : Vect _ n -> Vect _ (min 5 n)
 def random_song_selector(playlist):
     if len(playlist) < 5:
         return playlist
@@ -35,7 +46,7 @@ def random_song_selector(playlist):
 # get_100 : {n <= 5} -> Vect (song_id) n -> Vect (song_id) 100
 def get_100(target_ids):
     playlist = random_song_selector(target_ids)
-
+    spotify = auth()
     res = spotify.recommendations(seed_tracks=playlist, limit=100)
     ids = [i['id'] for i in res['tracks']]
     return ids
@@ -63,6 +74,7 @@ def audio_features_to_dict(feats, has_id=True):
 
 # get_features : Vect (song_id) -> Dict (mood)
 def get_features(target_id):
+    spotify = auth()
     res = spotify.audio_features(tracks=target_id)[0]
 
     return audio_features_to_dict(res)
@@ -95,6 +107,7 @@ def audio_features_to_df(feats_list, has_id=True):
 
 # get_all_features : Vect (song_id) -> DataFrame (mood)
 def get_all_features(list_id):
+    spotify = auth()
     feats_list = spotify.audio_features(tracks=list_id)
 
     df = audio_features_to_df(feats_list)
@@ -139,6 +152,7 @@ def songs_data(res_df):
 
 # songs_data_single : String (song_id) -> Dict (song_data)
 def songs_data_single(id):
+    spotify = auth()
     tracks = spotify.track(id)
     t = {'large_image': tracks['album']['images'][0]['url'],
          'med_image': tracks['album']['images'][1]['url'],
@@ -158,6 +172,7 @@ def rec_data(target_id):
 
 # get_songs : String -> Vect (Dict (song_data))
 def get_songs(song, limit=7):
+    spotify = auth()
     songs = spotify.search(song,
                            limit=limit,
                            offset=0,
@@ -173,6 +188,7 @@ def get_songs(song, limit=7):
 
 # get_songs_with_pic : String -> Vect (Dict (song_data))
 def get_songs_with_pic(song, limit=7):
+    spotify = auth()
     songs = spotify.search(song,
                            limit=limit,
                            offset=0,

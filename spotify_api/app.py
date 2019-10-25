@@ -99,6 +99,7 @@ def graph(key, value):
 @app.route('/graph_data/<key>/<value>')
 def graph_data(key, value):
     if key == API_KEY:
+        spotify = auth()
         recs = top_recs([value])
 
         features = pd.concat([get_all_features([value]), recs])
@@ -146,7 +147,7 @@ def playlist_mood_recs(key):
         recs = mood_playlist_recs(playlist)
         li = [i['id'] for i in recs]
         features = get_all_features(li)
-
+        spotify = auth()
 
         custom_style = fixed_style
         radar_chart = pygal.Radar(style=custom_style)
@@ -172,7 +173,7 @@ def playlist_mood_recs(key):
 def playlist_recs(key):
     if key == API_KEY:
         value = request.args.get('playlist')
-
+        spotify = auth()
         playlist = playlist_str_to_ls(value)
 
         recs = rec_data(playlist)
@@ -229,7 +230,7 @@ def mood_rec_api(key, value):
 @app.route('/single_song_graph/<key>/<value>')
 def sigle_song_graph(key, value):
     if key == API_KEY:
-
+        spotify = auth()
         features = get_all_features([value])
 
         custom_style = fixed_style
